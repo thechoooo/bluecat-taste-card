@@ -111,7 +111,6 @@
 </style>
 </head>
 <body>
-
 <div class="hero">
   <svg class="rings" viewBox="0 0 360 360" xmlns="http://www.w3.org/2000/svg">
     <circle cx="180" cy="180" r="170" stroke-width="1"/>
@@ -136,6 +135,7 @@
       <p class="q-text">어떤 맛에 끌리세요?</p>
       <div class="pills">
         <button class="pill" data-v="sweet">달콤한 쪽</button>
+        <button class="pill" data-v="citrus">상큼한 쪽</button>
         <button class="pill" data-v="dry">드라이한 쪽</button>
       </div>
     </div>
@@ -211,44 +211,44 @@
 (function(){
   var DATA = [
     {name:"McIntosh", category:"시그니처", price:"25,000", ingredients:"Calvados, Lemon, Apple, Ginger, Apple Sparkling Water",
-      q1:"sweet", q2:"light", q3:"citrus", q4:"no", mood:"cozy",
+      q1:"citrus", q2:"light", q3:"citrus", q4:"no", mood:"cozy",
       desc:"칼바도스의 묵직한 사과 향 위에 레몬의 산미와 진저의 알싸함이 얹히고, 사과 스파클링이 전체를 가볍게 들어올립니다. 실제로 이 자리에 놓인 매킨토시 앰프에서, 그리고 하루키가 보스턴 시절 가장 즐겨 먹던 사과 품종에서 — 이름은 두 가지를 동시에 가리킵니다. 잔을 든 채 어느 쪽을 먼저 떠올리든 좋습니다."},
     {name:"Queen of Citrus", category:"시그니처", price:"28,000", ingredients:"Red Wine, Orange Curaçao, Peach, Apple, Lemon",
       q1:"sweet", q2:"light", q3:"rich", q4:"no",
       desc:"레드와인의 묵직함 위로 오렌지퀴라소와 복숭아가 겹겹이 쌓이고, 사과와 레몬이 끝맛을 정리합니다. 와인 한 잔과 칵테일 한 잔의 경계에 걸쳐 있는 한 잔이라, 그 겹치는 순간을 당신의 속도로 느껴보시면 좋습니다."},
     {name:"Blue Siren", category:"시그니처", price:"26,000", ingredients:"Gin, Elderflower, Lemon, White Wine, Soda",
-      q1:"dry", q2:"strong", q3:"citrus", q4:"yes",
+      q1:"citrus", q2:"strong", q3:"citrus", q4:"yes",
       desc:"진의 드라이함과 화이트와인의 산뜻함이 먼저 부딪히고, 엘더플라워의 은은한 꽃향이 그 사이를 메웁니다. 소다가 마지막에 전체를 가볍게 틔워주는, 서로 다른 두 방향이 한 잔 안에서 긴장을 유지하는 구성입니다. 어느 쪽이 먼저 다가오는지는 당신만 압니다."},
     {name:"Valentine's Pandora", category:"시그니처", price:"27,000", ingredients:"Whiskey, Cacao, Coffee",
       q1:"sweet", q2:"strong", q3:"rich", q4:"yes", mood:"immersive",
       desc:"위스키의 무게감에 카카오의 달콤함과 커피의 쓴맛이 층층이 내려앉는, 블루캣에서 가장 묵직한 한 잔입니다. 리본 박스와 시가롤 가니시로 나가, 상자를 여는 순간부터 이미 한 편의 이야기가 시작됩니다."},
 
     {name:"Gin & Tonic", category:"클래식", price:"18,000", ingredients:"Gin, Lime, Tonic",
-      q1:"dry", q2:"light", q3:"citrus", q4:"no", mood:"alert",
+      q1:"citrus", q2:"light", q3:"citrus", q4:"no", mood:"alert",
       desc:"진의 식물성 향이 토닉의 쌉싸름한 허브향과 만나고, 라임이 그 위에 산뜻함을 더합니다. 영국 식민지 시절, 말라리아 예방약이었던 토닉워터에 진을 더해 마시기 시작했다는 이야기가 전해집니다."},
     {name:"Gin Fizz", category:"클래식", price:"20,000", ingredients:"Gin, Lemon, Soda",
-      q1:"dry", q2:"light", q3:"citrus", q4:"no", mood:"social",
+      q1:"citrus", q2:"light", q3:"citrus", q4:"no", mood:"social",
       desc:"진과 레몬이 소다 거품 속에서 가볍게 섞이는, 군더더기 없는 한 잔입니다. 19세기 뉴올리언스에서 이 피즈 계열이 특히 사랑받았다고 알려져 있습니다."},
     {name:"Gimlet", category:"클래식", price:"23,000", ingredients:"Gin, Lime",
-      q1:"dry", q2:"light", q3:"citrus", q4:"no", mood:"reset",
+      q1:"citrus", q2:"light", q3:"citrus", q4:"no", mood:"reset",
       desc:"진과 라임, 단 두 가지가 만드는 가장 드라이한 긴장감입니다. 영국 해군이 괴혈병을 막기 위해 라임을 곁들였다는 이야기에서 비롯됐다고 전해집니다."},
     {name:"Boston Cooler", category:"클래식", price:"20,000", ingredients:"Rum, Lemon, Ginger",
-      q1:"sweet", q2:"light", q3:"citrus", q4:"no", mood:"cozy",
+      q1:"citrus", q2:"light", q3:"citrus", q4:"no", mood:"cozy",
       desc:"럼의 단맛과 레몬의 산미 사이로 진저가 매콤하게 치고 올라오는, 청량감이 중심인 한 잔입니다. 이름 그대로 보스턴에서 유래했다고 전해집니다."},
     {name:"Margarita", category:"클래식", price:"23,000", ingredients:"Tequila, Lime, Salt",
-      q1:"sweet", q2:"light", q3:"citrus", q4:"no", mood:"playful",
+      q1:"citrus", q2:"light", q3:"citrus", q4:"no", mood:"playful",
       desc:"테킬라의 흙내와 라임의 산미가 솔트림을 사이에 두고 선명하게 부딪히는 한 잔입니다. 누가 처음 만들었는지를 두고 여러 이야기가 경쟁하듯 전해지는, 흔치 않은 칵테일입니다."},
     {name:"Daiquiri", category:"클래식", price:"23,000", ingredients:"Rum, White Curacao, Lime",
-      q1:"sweet", q2:"light", q3:"citrus", q4:"no", mood:"reset",
+      q1:"citrus", q2:"light", q3:"citrus", q4:"no", mood:"reset",
       desc:"럼과 라임만으로 만들어 군더더기가 없는, 가장 단순한 형태의 사워입니다. 쿠바의 작은 광산 마을 이름에서 왔다고 전해집니다."},
     {name:"Cosmopolitan", category:"클래식", price:"23,000", ingredients:"Vodka, White Curacao, Lime, Cranberry",
-      q1:"sweet", q2:"light", q3:"citrus", q4:"no", mood:"playful",
+      q1:"citrus", q2:"light", q3:"citrus", q4:"no", mood:"playful",
       desc:"보드카의 깔끔함 위에 크랜베리의 새콤달콤함이 분홍빛으로 번지는 한 잔입니다. 1990년대 한 드라마를 통해 세계적으로 유명해졌다고 알려진, 비교적 젊은 축에 속하는 칵테일입니다."},
     {name:"Mojito", category:"클래식", price:"23,000", ingredients:"Rum, Lime, Mint, Soda",
-      q1:"sweet", q2:"light", q3:"citrus", q4:"no", mood:"social",
+      q1:"citrus", q2:"light", q3:"citrus", q4:"no", mood:"social",
       desc:"민트의 청량함과 라임의 산미가 소다 거품 속에서 가볍게 떠오르는 한 잔입니다. 쿠바 아바나에서 시작된 것으로 알려져 있고, 한 소설가가 즐겨 마셨다는 이야기로도 잘 알려져 있습니다."},
     {name:"Whiskey Sour", category:"클래식", price:"25,000", ingredients:"Bourbon, Lemon, Egg White",
-      q1:"sweet", q2:"light", q3:"citrus", q4:"no", mood:"immersive",
+      q1:"citrus", q2:"light", q3:"citrus", q4:"no", mood:"immersive",
       desc:"버번의 단맛과 레몬의 산미가 에그화이트의 부드러운 거품 아래 자리 잡는 한 잔입니다. 가장 오래된 기록 중 하나가 1870년대 미국 신문에서 발견됐다고 전해질 만큼 오래된 조합입니다."},
 
     {name:"Negroni", category:"클래식", price:"23,000", ingredients:"Gin, Sweet Vermouth, Campari",
@@ -270,13 +270,13 @@
       q1:"sweet", q2:"strong", q3:"rich", q4:"yes", mood:"cozy",
       desc:"버번 본연의 맛을 설탕 한 조각과 비터스 몇 방울로만 다듬는, 가장 적게 손댄 한 잔입니다. '예전 방식'으로 만든 술이라는 뜻에서 이름이 왔다고 전해집니다."},
     {name:"Sidecar", category:"클래식", price:"25,000", ingredients:"Cognac, White Curacao, Lemon",
-      q1:"sweet", q2:"strong", q3:"citrus", q4:"no",
+      q1:"citrus", q2:"strong", q3:"citrus", q4:"no",
       desc:"코냑의 깊은 향에 오렌지퀴라소의 단맛과 레몬의 산미가 균형을 맞추는 한 잔입니다. 제1차 세계대전 무렵 파리에서, 오토바이 사이드카를 타고 다니던 손님을 위해 만들어졌다는 이야기가 전해집니다."},
     {name:"Vieux Carré", category:"클래식", price:"25,000", ingredients:"Bourbon, Cognac, Benedictine, Sweet Vermouth",
       q1:"sweet", q2:"strong", q3:"rich", q4:"no", mood:"immersive",
       desc:"버번과 코냑, 두 가지 브랜디·위스키가 베네딕틴의 허브향과 베르무트의 단맛 속에서 겹겹이 쌓이는, 가장 복잡한 구성의 한 잔입니다. 뉴올리언스의 한 호텔 바에서 탄생했다고 알려진, 프랑스어로 '오래된 구역'이라는 뜻을 가진 칵테일입니다."},
     {name:"Penicillin", category:"클래식", price:"25,000", ingredients:"Whiskey, Ginger, Honey, Lemon",
-      q1:"sweet", q2:"strong", q3:"citrus", q4:"yes",
+      q1:"citrus", q2:"strong", q3:"citrus", q4:"yes",
       desc:"스모키한 위스키에 진저의 매콤함과 꿀의 단맛, 레몬의 산미가 겹치는 한 잔입니다. 2000년대 뉴욕의 한 바텐더가 만든, 비교적 최근에 '클래식'의 반열에 오른 칵테일입니다."},
     {name:"Godfather", category:"클래식", price:"21,000", ingredients:"Blended Whiskey, Amaretto",
       q1:"sweet", q2:"strong", q3:"rich", q4:"no", mood:"cozy",
