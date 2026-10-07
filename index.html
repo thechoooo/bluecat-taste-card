@@ -3,369 +3,78 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>칵테일 취향 카드</title>
+<title>블루캣 취향 카드</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Domine:wght@400..700&family=Nunito+Sans:wght@400;600;700&display=swap">
 <style>
   :root{
-    --cream:#F4EEDF;
-    --ink:#201A12;
-    --muted:#5B5346;
-    --navy:#14213D;
-    --navy-ink:#F4EEDF;
-    --navy-muted:#B9C2D6;
-    --blue:#194AA0;
-    --gold:#C9A24B;
-    --card:#FBF8F0;
-    --border:#E3D9C3;
-    --bg:var(--cream);
-    --fg:var(--ink);
-    color-scheme: light;
-  }
-  @media (prefers-color-scheme: dark){
-    :root:not([data-theme="light"]){
-      --bg:#17110B; --fg:#F1E9D8; --muted:#B9AE98; --card:#231A10; --border:#3A2E1D;
-      color-scheme: dark;
-    }
-  }
-  :root[data-theme="dark"]{
-    --bg:#17110B; --fg:#F1E9D8; --muted:#B9AE98; --card:#231A10; --border:#3A2E1D;
+    --cream:#F4EEDF; --ink:#201A12; --muted:#5B5346;
+    --navy:#14213D; --navy-ink:#F4EEDF; --navy-muted:#B9C2D6;
+    --blue:#194AA0; --gold:#C9A24B;
+    --card:#FBF8F0; --border:#E3D9C3;
+    --card-fg:#201A12; --card-muted:#5B5346;
+    --bg:var(--navy); --fg:var(--navy-ink);
     color-scheme: dark;
   }
   *{box-sizing:border-box}
-  body{margin:0;background:var(--bg);color:var(--fg);font-family:'Nunito Sans',-apple-system,sans-serif;line-height:1.7}
-  .wrap{max-width:640px;margin:0 auto;padding:0 20px}
-
-  .hero{background:var(--navy);color:var(--navy-ink);padding:72px 0 56px;position:relative;overflow:hidden}
-  .rings{position:absolute;right:-110px;top:50%;transform:translateY(-50%);width:360px;height:360px;opacity:0.45}
+  body{margin:0;background:var(--bg);color:var(--fg);font-family:'Nunito Sans',-apple-system,sans-serif;line-height:1.7;min-height:100vh}
+  .rings{position:absolute;right:-110px;top:-80px;width:360px;height:360px;opacity:0.35}
   .rings circle{fill:none;stroke:var(--gold);stroke-opacity:0.35}
-  .hero .wrap{position:relative;z-index:1}
+  .page{max-width:460px;margin:0 auto;padding:72px 24px 56px;text-align:center;position:relative}
+  .logo-symbol{width:220px;max-width:70%;height:auto;display:block;margin:0 auto 28px;filter:brightness(0) invert(1);opacity:0.95}
   .eyebrow{font-size:13px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin:0 0 16px}
-  .hero h1{font-family:'Domine',Georgia,serif;font-size:clamp(32px,7vw,46px);font-weight:700;line-height:1.2;margin:0 0 18px}
-  .hero p{font-size:17px;color:var(--navy-muted);max-width:460px;margin:0 0 10px}
-  .logo-symbol{width:220px;max-width:60%;height:auto;display:block;margin:0 0 24px;filter:brightness(0) invert(1);opacity:0.95}
-  .logo-wordmark{height:22px;width:auto;display:inline-block;vertical-align:middle;margin-right:10px}
-  footer .wrap{display:flex;align-items:center;justify-content:center;gap:10px}
+  h1{font-family:'Domine',Georgia,serif;font-size:clamp(28px,7vw,36px);font-weight:700;line-height:1.3;margin:0 0 14px}
+  .sub{font-size:16px;color:var(--navy-muted);max-width:380px;margin:0 auto 48px;line-height:1.8}
 
-  main{padding:40px 0 100px}
-  .q-block{margin-bottom:44px}
-  .q-num{font-size:12px;font-weight:700;letter-spacing:2px;color:var(--gold);text-transform:uppercase;display:block;margin-bottom:10px}
-  .q-text{font-family:'Domine',Georgia,serif;font-size:21px;font-weight:700;margin:0 0 18px;line-height:1.4}
-  .pills{display:flex;flex-wrap:wrap;gap:10px}
-  .pill{
-    font-family:'Nunito Sans',sans-serif;
-    font-size:15px;
-    padding:12px 18px;
-    border-radius:999px;
-    border:1px solid var(--border);
+  .card-link{
+    display:block;
     background:var(--card);
-    color:var(--fg);
-    cursor:pointer;
-    transition:background .15s,border-color .15s,color .15s;
+    border:1px solid var(--border);
+    border-radius:18px;
+    padding:28px;
+    margin:0 0 18px;
     text-align:left;
+    text-decoration:none;
+    color:var(--ink);
+    transition:border-color .15s,transform .15s;
   }
-  .pill:hover{border-color:var(--blue)}
-  .pill.active{background:var(--blue);border-color:var(--blue);color:#F4EEDF}
+  .card-link:hover{border-color:var(--blue);transform:translateY(-2px)}
+  .card-eyebrow{font-size:12px;font-weight:700;letter-spacing:2px;color:var(--blue);text-transform:uppercase;margin:0 0 8px}
+  .card-title{font-family:'Domine',Georgia,serif;font-size:22px;font-weight:700;margin:0 0 8px}
+  .card-desc{font-size:14px;color:var(--muted);margin:0;line-height:1.7}
 
-  .submit-row{margin-top:56px;text-align:center}
-  #submitBtn{
-    font-family:'Nunito Sans',sans-serif;
-    font-size:17px;font-weight:700;
-    background:var(--gold);color:var(--ink);
-    border:none;border-radius:999px;
-    padding:16px 40px;cursor:pointer;
-    opacity:0.4;pointer-events:none;
-    transition:opacity .2s;
-  }
-  #submitBtn.ready{opacity:1;pointer-events:auto}
-  #submitBtn:hover.ready{filter:brightness(1.05)}
-  .hint{font-size:13px;color:var(--muted);margin-top:14px}
-
-  #result{display:none;background:var(--navy);color:var(--navy-ink);padding:72px 0 88px;margin-top:0}
-  #result .wrap{text-align:center}
-  .result-eyebrow{font-size:13px;font-weight:700;letter-spacing:2px;color:var(--gold);text-transform:uppercase;margin:0 0 14px}
-  #resultName{font-family:'Domine',Georgia,serif;font-size:clamp(30px,7vw,42px);font-weight:700;margin:0 0 10px}
-  #resultMeta{font-size:15px;color:var(--navy-muted);margin:0 0 28px}
-  #resultDesc{
-    text-align:left;
-    background:rgba(244,238,223,0.06);
-    border:1px solid rgba(201,162,75,0.3);
-    border-radius:16px;
-    padding:28px 28px;
-    font-size:16px;
-    line-height:1.8;
-    color:var(--navy-ink);
-    margin:0 0 32px;
-    white-space:pre-line;
-  }
-  .closing{font-size:14px;color:var(--navy-muted);line-height:1.8;max-width:460px;margin:0 auto 32px}
-  #retryBtn{
-    font-family:'Nunito Sans',sans-serif;font-size:15px;font-weight:700;
-    background:transparent;color:var(--navy-ink);
-    border:1px solid var(--navy-muted);border-radius:999px;
-    padding:12px 28px;cursor:pointer;
-  }
-  #retryBtn:hover{border-color:var(--gold);color:var(--gold)}
-
-  footer{padding:32px 20px 48px;text-align:center}
-  footer p{font-size:12px;color:var(--muted);margin:0}
+  footer{padding:40px 24px 48px;text-align:center}
+  .logo-wordmark{height:20px;width:auto;opacity:0.7;filter:brightness(0) invert(1)}
 </style>
 </head>
 <body>
-<div class="hero">
+
+<div class="page">
   <svg class="rings" viewBox="0 0 360 360" xmlns="http://www.w3.org/2000/svg">
     <circle cx="180" cy="180" r="170" stroke-width="1"/>
     <circle cx="180" cy="180" r="135" stroke-width="1"/>
     <circle cx="180" cy="180" r="100" stroke-width="1"/>
-    <circle cx="180" cy="180" r="65" stroke-width="1"/>
   </svg>
-  <div class="wrap">
-    <img class="logo-symbol" src="bluecat-wordmark-full.png" alt="Blue Cat — Harukist Muzic Library">
-    <p class="eyebrow">당신의 취향을 찾는 여정</p>
-    <h1>칵테일 취향 카드</h1>
-    <p>좋아하는 것과 좋아한다고 생각했던 것은, 가끔 다릅니다.</p>
-    <p>몇 가지 질문에 답하는 이 짧은 시간이, 당신이 미처 몰랐던 당신의 한 조각을 보여줄지도 모릅니다. 정답은 없습니다. 이 카드는 당신에게 묻고, 당신은 스스로 답을 찾아갑니다.</p>
-  </div>
-</div>
+  <img class="logo-symbol" src="bluecat-wordmark-full.png" alt="Blue Cat — Harukist Muzic Library">
+  <p class="eyebrow">Taste DNA</p>
+  <h1>오늘, 당신의 취향을 찾아보세요</h1>
+  <p class="sub">몇 가지 질문에 답하면 지금 당신에게 어울리는 한 잔이 드러납니다.</p>
 
-<main>
-  <div class="wrap">
+  <a class="card-link" href="cocktail.html">
+    <p class="card-eyebrow">Cocktail DNA</p>
+    <p class="card-title">칵테일 DNA 찾기</p>
+    <p class="card-desc">좋아하는 맛과 향, 탄산 취향으로 나만의 칵테일 타입을 찾습니다.</p>
+  </a>
 
-    <div class="q-block" data-q="q2">
-      <span class="q-num">가벼움과 묵직함</span>
-      <p class="q-text">오늘 당신에게 어울리는 한 잔은, 가벼운 쪽인가요 묵직한 쪽인가요?</p>
-      <div class="pills">
-        <button class="pill" data-v="light">가볍게 — 산책하듯</button>
-        <button class="pill" data-v="strong">묵직하게 — 눌러앉듯</button>
-      </div>
-    </div>
-
-    <div class="q-block" data-q="q3">
-      <span class="q-num">입술에 닿는 느낌</span>
-      <p class="q-text">입술에 먼저 닿았으면 하는 느낌은?</p>
-      <div class="pills">
-        <button class="pill" data-v="citrus">레몬처럼, 산뜻하게</button>
-        <button class="pill" data-v="rich">오크처럼, 그윽하게</button>
-      </div>
-    </div>
-
-    <div class="q-block" data-q="q1">
-      <span class="q-num">혀끝에 남기고 싶은 맛</span>
-      <p class="q-text">혀끝에 끝내 남기고 싶은 맛은?</p>
-      <div class="pills">
-        <button class="pill" data-v="sweet">달콤한 쪽</button>
-        <button class="pill" data-v="citrus">상큼한 쪽</button>
-        <button class="pill" data-v="dry">드라이한 쪽</button>
-      </div>
-    </div>
-
-    <div class="q-block" data-q="q4">
-      <span class="q-num">여운</span>
-      <p class="q-text">마지막 모금이 지나간 자리엔, 무엇이 남으면 좋을까요?</p>
-      <div class="pills">
-        <button class="pill" data-v="yes">쌉싸름하게, 오래</button>
-        <button class="pill" data-v="no">깔끔하게, 짧게</button>
-      </div>
-    </div>
-
-    <div class="q-block" data-q="q5">
-      <span class="q-num">지금 가장 가고 싶은 도시</span>
-      <p class="q-text">지금 당장 떠날 수 있다면, 어느 도시에 서 있고 싶은가요?</p>
-      <div class="pills">
-        <button class="pill" data-v="reset">레이캬비크 — 아무도 깨지 않은 새벽</button>
-        <button class="pill" data-v="alert">보스턴 — 조용히 글이 써지는 새벽 서재</button>
-        <button class="pill" data-v="playful">이비자 — 낯선 음악이 흐르는 해변</button>
-        <button class="pill" data-v="cozy">비엔나 — 늘 앉던 자리의 오래된 카페</button>
-        <button class="pill" data-v="immersive">파리 — 불 꺼진 서점 안</button>
-        <button class="pill" data-v="social">뉴욕 — 색소폰 소리 들리는 재즈클럽</button>
-      </div>
-    </div>
-
-    <div class="submit-row">
-      <button id="submitBtn">이제, 당신의 한 잔을 확인해보세요</button>
-      <p class="hint" id="hintText">5개 질문에 모두 답하면 결과가 열립니다.</p>
-    </div>
-
-  </div>
-</main>
-
-<div id="result">
-  <div class="wrap">
-    <img class="logo-symbol" src="bluecat-wordmark-full.png" alt="Blue Cat — Harukist Muzic Library" style="margin-inline:auto">
-    <p class="result-eyebrow" id="resultCategory">Your Glass</p>
-    <h2 id="resultName">—</h2>
-    <p id="resultMeta">—</p>
-    <div id="resultDesc">—</div>
-    <p class="closing">오늘 당신이 고른 한 잔은, 정답이 아니라 하나의 실마리입니다. 다음에 다시 이 카드를 든다면, 아마 다른 결과가 나올 겁니다 — 그건 카드가 틀려서가 아니라, 당신이 그만큼 자신의 취향을 넓혀왔다는 뜻입니다.</p>
-    <button id="retryBtn">다시 찾아보기</button>
-  </div>
+  <a class="card-link" href="whiskey.html">
+    <p class="card-eyebrow">Whisky DNA</p>
+    <p class="card-title">위스키 DNA 찾기</p>
+    <p class="card-desc">위스키를 몰라도 괜찮습니다. 음료와 커피, 향으로 첫 한 병을 찾습니다.</p>
+  </a>
 </div>
 
 <footer>
-  <div class="wrap">
-    <img class="logo-wordmark" src="bluecat-wordmark.png" alt="Blue Cat">
-    <p>칵테일 취향 카드</p>
-  </div>
+  <img class="logo-wordmark" src="bluecat-wordmark.png" alt="Blue Cat">
 </footer>
 
-<script>
-(function(){
-  var DATA = [
-    {name:"McIntosh", category:"시그니처", price:"25,000", ingredients:"Calvados, Lemon, Apple, Ginger, Apple Sparkling Water",
-      q1:"citrus", q2:"light", q3:"citrus", q4:"no", mood:"cozy",
-      desc:"칼바도스의 묵직한 사과 향 위에 레몬의 산미와 진저의 알싸함이 얹히고, 사과 스파클링이 전체를 가볍게 들어올립니다. 실제로 이 자리에 놓인 매킨토시 앰프에서, 그리고 하루키가 보스턴 시절 가장 즐겨 먹던 사과 품종에서 — 이름은 두 가지를 동시에 가리킵니다. 잔을 든 채 어느 쪽을 먼저 떠올리든 좋습니다."},
-    {name:"Queen of Citrus", category:"시그니처", price:"28,000", ingredients:"Red Wine, Orange Curaçao, Peach, Apple, Lemon",
-      q1:"sweet", q2:"light", q3:"rich", q4:"no",
-      desc:"레드와인의 묵직함 위로 오렌지퀴라소와 복숭아가 겹겹이 쌓이고, 사과와 레몬이 끝맛을 정리합니다. 와인 한 잔과 칵테일 한 잔의 경계에 걸쳐 있는 한 잔이라, 그 겹치는 순간을 당신의 속도로 느껴보시면 좋습니다."},
-    {name:"Blue Siren", category:"시그니처", price:"26,000", ingredients:"Gin, Elderflower, Lemon, White Wine, Soda",
-      q1:"citrus", q2:"strong", q3:"citrus", q4:"yes",
-      desc:"진의 드라이함과 화이트와인의 산뜻함이 먼저 부딪히고, 엘더플라워의 은은한 꽃향이 그 사이를 메웁니다. 소다가 마지막에 전체를 가볍게 틔워주는, 서로 다른 두 방향이 한 잔 안에서 긴장을 유지하는 구성입니다. 어느 쪽이 먼저 다가오는지는 당신만 압니다."},
-    {name:"Valentine's Pandora", category:"시그니처", price:"27,000", ingredients:"Whiskey, Cacao, Coffee",
-      q1:"sweet", q2:"strong", q3:"rich", q4:"yes", mood:"immersive",
-      desc:"위스키의 무게감에 카카오의 달콤함과 커피의 쓴맛이 층층이 내려앉는, 블루캣에서 가장 묵직한 한 잔입니다. 리본 박스와 시가롤 가니시로 나가, 상자를 여는 순간부터 이미 한 편의 이야기가 시작됩니다."},
-
-    {name:"Gin & Tonic", category:"클래식", price:"18,000", ingredients:"Gin, Lime, Tonic",
-      q1:"citrus", q2:"light", q3:"citrus", q4:"no", mood:"alert",
-      desc:"진의 식물성 향이 토닉의 쌉싸름한 허브향과 만나고, 라임이 그 위에 산뜻함을 더합니다. 영국 식민지 시절, 말라리아 예방약이었던 토닉워터에 진을 더해 마시기 시작했다는 이야기가 전해집니다."},
-    {name:"Gin Fizz", category:"클래식", price:"20,000", ingredients:"Gin, Lemon, Soda",
-      q1:"citrus", q2:"light", q3:"citrus", q4:"no", mood:"social",
-      desc:"진과 레몬이 소다 거품 속에서 가볍게 섞이는, 군더더기 없는 한 잔입니다. 19세기 뉴올리언스에서 이 피즈 계열이 특히 사랑받았다고 알려져 있습니다."},
-    {name:"Gimlet", category:"클래식", price:"23,000", ingredients:"Gin, Lime",
-      q1:"citrus", q2:"light", q3:"citrus", q4:"no", mood:"reset",
-      desc:"진과 라임, 단 두 가지가 만드는 가장 드라이한 긴장감입니다. 영국 해군이 괴혈병을 막기 위해 라임을 곁들였다는 이야기에서 비롯됐다고 전해집니다."},
-    {name:"Boston Cooler", category:"클래식", price:"20,000", ingredients:"Rum, Lemon, Ginger",
-      q1:"citrus", q2:"light", q3:"citrus", q4:"no", mood:"cozy",
-      desc:"럼의 단맛과 레몬의 산미 사이로 진저가 매콤하게 치고 올라오는, 청량감이 중심인 한 잔입니다. 이름 그대로 보스턴에서 유래했다고 전해집니다."},
-    {name:"Margarita", category:"클래식", price:"23,000", ingredients:"Tequila, Lime, Salt",
-      q1:"citrus", q2:"light", q3:"citrus", q4:"no", mood:"playful",
-      desc:"테킬라의 흙내와 라임의 산미가 솔트림을 사이에 두고 선명하게 부딪히는 한 잔입니다. 누가 처음 만들었는지를 두고 여러 이야기가 경쟁하듯 전해지는, 흔치 않은 칵테일입니다."},
-    {name:"Daiquiri", category:"클래식", price:"23,000", ingredients:"Rum, White Curacao, Lime",
-      q1:"citrus", q2:"light", q3:"citrus", q4:"no", mood:"reset",
-      desc:"럼과 라임만으로 만들어 군더더기가 없는, 가장 단순한 형태의 사워입니다. 쿠바의 작은 광산 마을 이름에서 왔다고 전해집니다."},
-    {name:"Cosmopolitan", category:"클래식", price:"23,000", ingredients:"Vodka, White Curacao, Lime, Cranberry",
-      q1:"citrus", q2:"light", q3:"citrus", q4:"no", mood:"playful",
-      desc:"보드카의 깔끔함 위에 크랜베리의 새콤달콤함이 분홍빛으로 번지는 한 잔입니다. 1990년대 한 드라마를 통해 세계적으로 유명해졌다고 알려진, 비교적 젊은 축에 속하는 칵테일입니다."},
-    {name:"Mojito", category:"클래식", price:"23,000", ingredients:"Rum, Lime, Mint, Soda",
-      q1:"citrus", q2:"light", q3:"citrus", q4:"no", mood:"social",
-      desc:"민트의 청량함과 라임의 산미가 소다 거품 속에서 가볍게 떠오르는 한 잔입니다. 쿠바 아바나에서 시작된 것으로 알려져 있고, 한 소설가가 즐겨 마셨다는 이야기로도 잘 알려져 있습니다."},
-    {name:"Whiskey Sour", category:"클래식", price:"25,000", ingredients:"Bourbon, Lemon, Egg White",
-      q1:"citrus", q2:"light", q3:"citrus", q4:"no", mood:"immersive",
-      desc:"버번의 단맛과 레몬의 산미가 에그화이트의 부드러운 거품 아래 자리 잡는 한 잔입니다. 가장 오래된 기록 중 하나가 1870년대 미국 신문에서 발견됐다고 전해질 만큼 오래된 조합입니다."},
-
-    {name:"Negroni", category:"클래식", price:"23,000", ingredients:"Gin, Sweet Vermouth, Campari",
-      q1:"dry", q2:"strong", q3:"rich", q4:"yes",
-      desc:"진의 드라이함, 베르무트의 단맛, 캄파리의 선명한 쓴맛이 삼파전을 벌이는, 가장 쌉싸름한 한 잔입니다. 이탈리아의 한 백작이 \"더 독하게\" 요청하면서 만들어졌다는 이야기가 전해집니다."},
-    {name:"Dry Martini", category:"클래식", price:"23,000", ingredients:"Gin, Dry Vermouth",
-      q1:"dry", q2:"strong", q3:"rich", q4:"no",
-      desc:"진 본연의 향을 아주 적은 베르무트만으로 받쳐주는, 가장 적게 말하는 한 잔입니다. 정확히 언제 어디서 시작됐는지는 여전히 논쟁 중입니다 — 그만큼 오래, 여러 갈래로 다시 만들어져 왔다는 뜻이기도 합니다."},
-    {name:"Espresso Martini", category:"클래식", price:"23,000", ingredients:"Vodka, Coffee",
-      q1:"sweet", q2:"strong", q3:"rich", q4:"yes", mood:"alert",
-      desc:"보드카의 깔끔함 위로 에스프레소의 쓴맛과 크레마가 그대로 얹히는 한 잔입니다. 1980년대 런던의 한 바텐더가 만들었다고 알려진, 비교적 최근에 탄생한 칵테일입니다."},
-    {name:"Manhattan", category:"클래식", price:"23,000", ingredients:"Bourbon, Sweet Vermouth, Bitters",
-      q1:"sweet", q2:"strong", q3:"rich", q4:"no", mood:"cozy",
-      desc:"버번의 무게감에 스위트 베르무트가 단맛을, 비터스 몇 방울이 은은한 쌉싸름함을 더하는, 균형 잡힌 세 가지 구성입니다. 뉴욕의 한 클럽에서 시작됐다는 이야기가 전해지는, 위스키 칵테일의 고전입니다."},
-    {name:"Bloody Mary", category:"클래식", price:"23,000", ingredients:"Vodka, Tomato, Worcester, Salt, Pepper, Lemon",
-      q1:"dry", q2:"light", q3:"rich", q4:"no",
-      desc:"토마토의 묵직함에 우스터소스와 후추가 매콤함을 더하는, 달지 않고 짭짤한 쪽에 가까운 한 잔입니다. 1920년대 파리의 한 바에서 시작됐다는 이야기가 전해집니다."},
-    {name:"Old Fashioned", category:"클래식", price:"25,000", ingredients:"Bourbon, Sugar, Bitters",
-      q1:"sweet", q2:"strong", q3:"rich", q4:"yes", mood:"cozy",
-      desc:"버번 본연의 맛을 설탕 한 조각과 비터스 몇 방울로만 다듬는, 가장 적게 손댄 한 잔입니다. '예전 방식'으로 만든 술이라는 뜻에서 이름이 왔다고 전해집니다."},
-    {name:"Sidecar", category:"클래식", price:"25,000", ingredients:"Cognac, White Curacao, Lemon",
-      q1:"citrus", q2:"strong", q3:"citrus", q4:"no",
-      desc:"코냑의 깊은 향에 오렌지퀴라소의 단맛과 레몬의 산미가 균형을 맞추는 한 잔입니다. 제1차 세계대전 무렵 파리에서, 오토바이 사이드카를 타고 다니던 손님을 위해 만들어졌다는 이야기가 전해집니다."},
-    {name:"Vieux Carré", category:"클래식", price:"25,000", ingredients:"Bourbon, Cognac, Benedictine, Sweet Vermouth",
-      q1:"sweet", q2:"strong", q3:"rich", q4:"no", mood:"immersive",
-      desc:"버번과 코냑, 두 가지 브랜디·위스키가 베네딕틴의 허브향과 베르무트의 단맛 속에서 겹겹이 쌓이는, 가장 복잡한 구성의 한 잔입니다. 뉴올리언스의 한 호텔 바에서 탄생했다고 알려진, 프랑스어로 '오래된 구역'이라는 뜻을 가진 칵테일입니다."},
-    {name:"Penicillin", category:"클래식", price:"25,000", ingredients:"Whiskey, Ginger, Honey, Lemon",
-      q1:"citrus", q2:"strong", q3:"citrus", q4:"yes",
-      desc:"스모키한 위스키에 진저의 매콤함과 꿀의 단맛, 레몬의 산미가 겹치는 한 잔입니다. 2000년대 뉴욕의 한 바텐더가 만든, 비교적 최근에 '클래식'의 반열에 오른 칵테일입니다."},
-    {name:"Godfather", category:"클래식", price:"21,000", ingredients:"Blended Whiskey, Amaretto",
-      q1:"sweet", q2:"strong", q3:"rich", q4:"no", mood:"cozy",
-      desc:"위스키의 곡물향에 아마레또의 아몬드 같은 단맛이 그대로 얹히는, 재료 단 두 가지로 끝내는 한 잔입니다. 한 영화가 흥행하던 시절 이름 붙여졌다고 알려져 있습니다."},
-    {name:"Long Island Iced Tea", category:"클래식", price:"21,000", ingredients:"Rum, Gin, Vodka, Tequila, White Curacao, Lemon, Cola",
-      q1:"sweet", q2:"strong", q3:"rich", q4:"no", mood:"social",
-      desc:"럼·진·보드카·테킬라 네 가지 베이스가 콜라 한 잔 속에 섞여, 겉보기와 다르게 꽤 묵직한 한 잔입니다. 뉴욕 롱아일랜드에서 시작됐다는 이야기가 전해지며, 정확한 기원은 여러 설이 엇갈립니다."}
-  ];
-
-  var answers = {};
-  var qBlocks = document.querySelectorAll(".q-block");
-
-  qBlocks.forEach(function(block){
-    var q = block.getAttribute("data-q");
-    block.querySelectorAll(".pill").forEach(function(btn){
-      btn.addEventListener("click", function(){
-        block.querySelectorAll(".pill").forEach(function(b){ b.classList.remove("active"); });
-        btn.classList.add("active");
-        answers[q] = btn.getAttribute("data-v");
-        checkReady();
-      });
-    });
-  });
-
-  var submitBtn = document.getElementById("submitBtn");
-  var hintText = document.getElementById("hintText");
-
-  function checkReady(){
-    var total = qBlocks.length;
-    var answered = Object.keys(answers).length;
-    if(answered >= total){
-      submitBtn.classList.add("ready");
-      hintText.textContent = "모든 질문에 답했습니다. 이제 확인해보세요.";
-    } else {
-      submitBtn.classList.remove("ready");
-      hintText.textContent = (total - answered) + "개 질문이 더 남았습니다.";
-    }
-  }
-
-  function matchCocktail(a){
-    var tagMatch = DATA.filter(function(d){
-      return d.q1===a.q1 && d.q2===a.q2 && d.q3===a.q3 && d.q4===a.q4;
-    });
-    var pool = tagMatch.length ? tagMatch : DATA.slice();
-
-    if(pool.length > 1){
-      var byMood = pool.filter(function(d){ return d.mood && d.mood===a.q5; });
-      if(byMood.length) pool = byMood;
-    }
-    if(pool.length > 1){
-      var signature = pool.filter(function(d){ return d.category === "시그니처"; });
-      if(signature.length) pool = signature;
-    }
-    return pool;
-  }
-
-  submitBtn.addEventListener("click", function(){
-    if(!submitBtn.classList.contains("ready")) return;
-    var pool = matchCocktail(answers);
-
-    if(pool.length === 1){
-      var r = pool[0];
-      document.getElementById("resultCategory").textContent = r.category + " · Your Glass";
-      document.getElementById("resultName").textContent = r.name;
-      document.getElementById("resultMeta").textContent = r.ingredients + "  ·  ₩" + r.price;
-      document.getElementById("resultDesc").textContent = r.desc;
-    } else {
-      document.getElementById("resultCategory").textContent = "오늘의 결 — 이 중 하나";
-      document.getElementById("resultName").textContent = pool.map(function(d){ return d.name; }).join(" · ");
-      document.getElementById("resultMeta").textContent = pool.map(function(d){ return d.ingredients; }).join("  /  ");
-      var combined = pool.map(function(d){ return d.name + " — " + d.desc; }).join("\n\n");
-      document.getElementById("resultDesc").textContent = combined + "\n\n두 잔이 아주 가까운 결입니다. 바텐더에게 오늘은 어느 쪽이 더 당기는지 물어보셔도 좋습니다.";
-    }
-
-    var resultEl = document.getElementById("result");
-    resultEl.style.display = "block";
-    resultEl.scrollIntoView({behavior:"smooth"});
-  });
-
-  document.getElementById("retryBtn").addEventListener("click", function(){
-    answers = {};
-    document.querySelectorAll(".pill").forEach(function(b){ b.classList.remove("active"); });
-    document.getElementById("result").style.display = "none";
-    checkReady();
-    window.scrollTo({top:0, behavior:"smooth"});
-  });
-
-  checkReady();
-})();
-</script>
 </body>
 </html>

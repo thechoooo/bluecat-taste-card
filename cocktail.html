@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>칵테일 DNA</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Domine:wght@400..700&family=Nunito+Sans:wght@400;600;700&display=swap">
+<style>
+  :root{
+    --cream:#F4EEDF; --ink:#201A12; --muted:#5B5346;
+    --navy:#14213D; --navy-ink:#F4EEDF; --navy-muted:#B9C2D6;
+    --blue:#194AA0; --gold:#C9A24B;
+    --card:#FBF8F0; --border:#E3D9C3;
+    --card-fg:#201A12; --card-muted:#5B5346;
+    --bg:var(--cream); --fg:var(--ink);
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){ --bg:#17110B; --fg:#F1E9D8; --muted:#B9AE98; --card:#231A10; --border:#3A2E1D; --card-fg:#F1E9D8; --card-muted:#B9AE98; color-scheme: dark; }
+  }
+  :root[data-theme="dark"]{ --bg:#17110B; --fg:#F1E9D8; --muted:#B9AE98; --card:#231A10; --border:#3A2E1D; --card-fg:#F1E9D8; --card-muted:#B9AE98; color-scheme: dark; }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--fg);font-family:'Nunito Sans',-apple-system,sans-serif;line-height:1.7}
+  .wrap{max-width:640px;margin:0 auto;padding:0 20px}
+
+  .hero{background:var(--navy);color:var(--navy-ink);padding:72px 0 56px;position:relative;overflow:hidden}
+  .rings{position:absolute;right:-110px;top:50%;transform:translateY(-50%);width:360px;height:360px;opacity:0.45}
+  .rings circle{fill:none;stroke:var(--gold);stroke-opacity:0.35}
+  .hero .wrap{position:relative;z-index:1}
+  .eyebrow{font-size:13px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin:0 0 16px}
+  .hero h1{font-family:'Domine',Georgia,serif;font-size:clamp(32px,7vw,46px);font-weight:700;line-height:1.2;margin:0 0 18px}
+  .hero p{font-size:17px;color:var(--navy-muted);max-width:460px;margin:0 0 10px}
+  .logo-symbol{width:220px;max-width:60%;height:auto;display:block;margin:0 0 24px;filter:brightness(0) invert(1);opacity:0.95}
+  .logo-wordmark{height:22px;width:auto;display:inline-block;vertical-align:middle;margin-right:10px}
+  footer .wrap{display:flex;align-items:center;justify-content:center;gap:10px}
+
+  main{padding:40px 0 100px}
+  .q-block{margin-bottom:44px}
+  .q-num{font-size:12px;font-weight:700;letter-spacing:2px;color:var(--gold);text-transform:uppercase;display:block;margin-bottom:10px}
+  .q-text{font-family:'Domine',Georgia,serif;font-size:21px;font-weight:700;margin:0 0 18px;line-height:1.4}
+  .pills{display:flex;flex-direction:column;gap:10px}
+  .pill{
+    font-family:'Nunito Sans',sans-serif;
+    font-size:15px;
+    padding:14px 18px;
+    border-radius:14px;
+    border:1px solid var(--border);
+    background:var(--card);
+    color:var(--fg);
+    cursor:pointer;
+    transition:background .15s,border-color .15s,color .15s;
+    text-align:left;
+  }
+  .pill:hover{border-color:var(--blue)}
+  .pill.active{background:var(--blue);border-color:var(--blue);color:#F4EEDF}
+
+  .submit-row{margin-top:56px;text-align:center}
+  #submitBtn{
+    font-family:'Nunito Sans',sans-serif;
+    font-size:17px;font-weight:700;
+    background:var(--gold);color:var(--ink);
+    border:none;border-radius:999px;
+    padding:16px 40px;cursor:pointer;
+    opacity:0.4;pointer-events:none;
+    transition:opacity .2s;
+  }
+  #submitBtn.ready{opacity:1;pointer-events:auto}
+  #submitBtn:hover.ready{filter:brightness(1.05)}
+
+  #result{display:none;background:var(--navy);color:var(--navy-ink);padding:72px 0 88px;margin-top:0}
+  #result .wrap{text-align:center}
+  .result-eyebrow{font-size:13px;font-weight:700;letter-spacing:2px;color:var(--gold);text-transform:uppercase;margin:0 0 14px}
+  #typeName{font-family:'Domine',Georgia,serif;font-size:clamp(28px,6vw,38px);font-weight:700;margin:0 0 10px;line-height:1.3}
+  #typeHook{font-size:15px;color:var(--navy-muted);margin:0 0 6px}
+  #typeDesc{font-size:15px;color:var(--navy-muted);max-width:480px;margin:0 auto 36px;line-height:1.8}
+
+  .section-label{font-size:13px;font-weight:700;letter-spacing:2px;color:var(--gold);text-transform:uppercase;text-align:left;margin:0 0 16px}
+
+  .dna-card{
+    background:var(--card); border:1px solid var(--border); border-radius:16px;
+    padding:28px; margin:0 0 32px; text-align:left;
+  }
+  .dna-row{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+  .dna-row:last-child{margin-bottom:0}
+  .dna-label{font-size:14px;color:var(--card-fg);width:96px;flex-shrink:0}
+  .dna-track{display:block;flex:1;height:10px;background:var(--border);border-radius:999px;overflow:hidden}
+  .dna-fill{display:block;height:100%;background:var(--blue);border-radius:999px}
+  .dna-pct{font-size:14px;font-weight:700;color:var(--card-fg);width:42px;text-align:right;flex-shrink:0}
+
+  .picks-card{
+    background:var(--card); border:1px solid var(--border); border-radius:16px;
+    padding:28px; margin:0 0 32px; text-align:left;
+  }
+  .pick-row{padding:16px 0;border-bottom:1px solid var(--border)}
+  .pick-row:last-child{border-bottom:none}
+  .pick-head{display:flex;justify-content:space-between;align-items:baseline;margin:0 0 6px}
+  .pick-name{font-family:'Domine',Georgia,serif;font-size:17px;font-weight:700;color:var(--card-fg)}
+  .pick-price{font-size:13px;color:var(--card-muted)}
+  .pick-desc{font-size:14px;color:var(--card-muted);line-height:1.7;margin:0}
+
+  .serve-card{
+    background:var(--blue); border-radius:16px;
+    padding:28px; margin:0 0 32px; text-align:left; color:#F4EEDF;
+  }
+  .serve-reason{font-size:15px;margin:0;line-height:1.8}
+
+  .closing{font-size:14px;color:var(--navy-muted);line-height:1.8;max-width:460px;margin:0 auto 32px}
+  #retryBtn{
+    font-family:'Nunito Sans',sans-serif;font-size:15px;font-weight:700;
+    background:transparent;color:var(--navy-ink);
+    border:1px solid var(--navy-muted);border-radius:999px;
+    padding:12px 28px;cursor:pointer;
+  }
+  #retryBtn:hover{border-color:var(--gold);color:var(--gold)}
+
+  footer{padding:32px 20px 48px;text-align:center}
+  footer p{font-size:12px;color:var(--muted);margin:0}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <svg class="rings" viewBox="0 0 360 360" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="180" cy="180" r="170" stroke-width="1"/>
+    <circle cx="180" cy="180" r="135" stroke-width="1"/>
+    <circle cx="180" cy="180" r="100" stroke-width="1"/>
+    <circle cx="180" cy="180" r="65" stroke-width="1"/>
+  </svg>
+  <div class="wrap">
+    <img class="logo-symbol" src="bluecat-wordmark-full.png" alt="Blue Cat — Harukist Muzic Library">
+    <p class="eyebrow">Cocktail DNA</p>
+    <h1>칵테일 DNA</h1>
+    <p>칵테일을 잘 몰라도 괜찮습니다. 평소 좋아하는 맛과 향, 커피, 탄산을 따라가다 보면 — 어느새 당신에게 맞는 한 잔을 만나게 됩니다.</p>
+  </div>
+</div>
+
+<main>
+  <div class="wrap">
+
+    <div class="q-block" data-q="q1">
+      <span class="q-num">Q1</span>
+      <p class="q-text">어떤 맛에 가장 끌리세요?</p>
+      <div class="pills">
+        <button class="pill" data-v="a">달콤한 맛</button>
+        <button class="pill" data-v="b">상큼한 맛</button>
+        <button class="pill" data-v="c">청량하고 시원한 맛</button>
+        <button class="pill" data-v="d">쌉쌀한 맛</button>
+        <button class="pill" data-v="e">향긋한 맛</button>
+        <button class="pill" data-v="f">진하고 묵직한 맛</button>
+      </div>
+    </div>
+
+    <div class="q-block" data-q="q2">
+      <span class="q-num">Q2</span>
+      <p class="q-text">레몬이 들어간 음료를 마신다면?</p>
+      <div class="pills">
+        <button class="pill" data-v="a">레몬에이드처럼 달콤한 게 좋다</button>
+        <button class="pill" data-v="b">새콤할수록 좋다</button>
+        <button class="pill" data-v="c">적당히 새콤하고 깔끔한 게 좋다</button>
+        <button class="pill" data-v="d">레몬보다 허브·탄산이 좋다</button>
+        <button class="pill" data-v="e">굳이 없어도 된다</button>
+      </div>
+    </div>
+
+    <div class="q-block" data-q="q3">
+      <span class="q-num">Q3</span>
+      <p class="q-text">카페에서 음료를 고른다면?</p>
+      <div class="pills">
+        <button class="pill" data-v="a">달콤한 바닐라 라떼</button>
+        <button class="pill" data-v="b">상큼한 에이드</button>
+        <button class="pill" data-v="c">깔끔한 아메리카노</button>
+        <button class="pill" data-v="d">진한 콜드브루</button>
+        <button class="pill" data-v="e">탄산이 있는 음료</button>
+      </div>
+    </div>
+
+    <div class="q-block" data-q="q4">
+      <span class="q-num">Q4</span>
+      <p class="q-text">어떤 향이 가장 끌리나요?</p>
+      <div class="pills">
+        <button class="pill" data-v="a">오렌지·자몽</button>
+        <button class="pill" data-v="b">딸기·베리</button>
+        <button class="pill" data-v="c">민트·허브</button>
+        <button class="pill" data-v="d">꽃·플로럴</button>
+        <button class="pill" data-v="e">바닐라·우디</button>
+        <button class="pill" data-v="f">커피·초콜릿</button>
+        <button class="pill" data-v="g">향신료</button>
+      </div>
+    </div>
+
+    <div class="q-block" data-q="q5">
+      <span class="q-num">Q5</span>
+      <p class="q-text">탄산은 어느 정도가 좋아요?</p>
+      <div class="pills">
+        <button class="pill" data-v="a">탄산이 강한 게 좋다</button>
+        <button class="pill" data-v="b">살짝 톡 쏘는 정도</button>
+        <button class="pill" data-v="c">탄산은 없어도 된다</button>
+        <button class="pill" data-v="d">잘 모르겠다</button>
+      </div>
+    </div>
+
+    <div class="q-block" data-q="q6">
+      <span class="q-num">Q6</span>
+      <p class="q-text">술의 느낌은 어느 쪽이 좋아요?</p>
+      <div class="pills">
+        <button class="pill" data-v="a">가볍고 편안하게</button>
+        <button class="pill" data-v="b">상쾌하게</button>
+        <button class="pill" data-v="c">적당히 취하는 느낌</button>
+        <button class="pill" data-v="d">진하고 강하게</button>
+        <button class="pill" data-v="e">천천히 음미할 수 있게</button>
+      </div>
+    </div>
+
+    <div class="q-block" data-q="q7">
+      <span class="q-num">Q7</span>
+      <p class="q-text">지금 이 칵테일을 누구와 마시나요?</p>
+      <div class="pills">
+        <button class="pill" data-v="a">혼자</button>
+        <button class="pill" data-v="b">연인과</button>
+        <button class="pill" data-v="c">친구와</button>
+        <button class="pill" data-v="d">처음 만난 사람과</button>
+        <button class="pill" data-v="e">특별한 날</button>
+      </div>
+    </div>
+
+    <div class="submit-row">
+      <button id="submitBtn">나의 칵테일 DNA 확인하기</button>
+    </div>
+
+  </div>
+</main>
+
+<div id="result">
+  <div class="wrap">
+    <img class="logo-symbol" src="bluecat-wordmark-full.png" alt="Blue Cat — Harukist Muzic Library" style="margin-inline:auto">
+    <p class="result-eyebrow">Your Cocktail Type</p>
+    <h2 id="typeName">—</h2>
+    <p id="typeHook">—</p>
+    <p id="typeDesc">—</p>
+
+    <p class="section-label">Cocktail DNA</p>
+    <div class="dna-card" id="dnaCard"></div>
+
+    <p class="section-label">추천 칵테일 3잔</p>
+    <div class="picks-card" id="picksCard"></div>
+
+    <p class="section-label">오늘의 한 마디</p>
+    <div class="serve-card">
+      <p class="serve-reason" id="serveReason">—</p>
+    </div>
+
+    <p class="closing">오늘의 결과는 지금 당신의 취향이지, 앞으로도 그렇다는 뜻은 아닙니다. 다음에 다시 이 카드를 든다면, 다른 결이 나올 수도 있습니다 — 그만큼 당신의 취향이 넓어졌다는 뜻입니다.</p>
+    <button id="retryBtn">다시 찾아보기</button>
+  </div>
+</div>
+
+<footer>
+  <div class="wrap">
+    <img class="logo-wordmark" src="bluecat-wordmark.png" alt="Blue Cat">
+    <p>칵테일 DNA</p>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var DIMS = ["sour","sweet","fresh","bitter","aromatic","spirited"];
+  var DIM_LABEL = {sour:"사워", sweet:"스위트", fresh:"프레시", bitter:"비터", aromatic:"아로마틱", spirited:"스피리티드"};
+  var DIM_EMOJI = {sour:"🍋", sweet:"🍯", fresh:"🌿", bitter:"🍊", aromatic:"🌸", spirited:"🥃"};
+
+  var POINTS = {
+    q1: { a:{sweet:3}, b:{sour:3}, c:{fresh:3}, d:{bitter:3}, e:{aromatic:3}, f:{spirited:3} },
+    q2: { a:{sweet:2}, b:{sour:3}, c:{fresh:2}, d:{aromatic:1,fresh:1}, e:{spirited:1,bitter:1} },
+    q3: { a:{sweet:3}, b:{sour:2,fresh:1}, c:{bitter:2}, d:{spirited:2,bitter:1}, e:{fresh:3} },
+    q4: { a:{sour:2,aromatic:1}, b:{sweet:2,sour:1}, c:{fresh:3}, d:{aromatic:3}, e:{spirited:2,sweet:1}, f:{sweet:2,bitter:1}, g:{bitter:2,aromatic:1} },
+    q5: { a:{fresh:3}, b:{fresh:1,sour:1}, c:{spirited:2,bitter:1}, d:{sour:1,sweet:1,fresh:1,bitter:1,aromatic:1,spirited:1} },
+    q6: { a:{fresh:1,sweet:1}, b:{sour:1,fresh:1}, c:{aromatic:1,sweet:1}, d:{spirited:3}, e:{bitter:2,spirited:1} }
+  };
+
+  var CONTEXT = {
+    a:"혼자 조용히 음미하기 좋은 한 잔입니다.",
+    b:"둘만의 대화를 방해하지 않는, 은은한 한 잔입니다.",
+    c:"가볍게 부딪히며 나누기 좋은 한 잔입니다.",
+    d:"어색함을 풀어주는, 가볍고 유쾌한 한 잔입니다.",
+    e:"오늘을 기억할 만한, 조금 특별한 한 잔입니다."
+  };
+
+  var TYPE_INFO = {
+    sour:{ name:"THE SOUR 🍋", hook:"새콤한 한 잔이 좋은 당신.",
+      desc:"레몬과 라임, 산미와 과일향에 먼저 반응합니다. 상큼함이 당신의 가장 분명한 취향입니다.",
+      picks:[
+        {name:"Whiskey Sour", price:"25,000", desc:"버번의 단맛과 레몬의 산미가 에그화이트의 부드러운 거품 아래 자리 잡는 한 잔입니다."},
+        {name:"Daiquiri", price:"23,000", desc:"럼과 라임만으로 만들어 군더더기가 없는, 가장 단순한 형태의 사워입니다."},
+        {name:"Gimlet", price:"23,000", desc:"진과 라임, 단 두 가지가 만드는 가장 드라이한 긴장감입니다."}
+      ]},
+    sweet:{ name:"THE SWEET 🍯", hook:"술에서도 작은 디저트를 찾는 당신.",
+      desc:"바닐라, 카카오, 캐러멜처럼 달콤하고 부드러운 쪽에 끌립니다. 한 잔이 디저트를 대신해도 좋습니다.",
+      picks:[
+        {name:"Espresso Martini", price:"23,000", desc:"보드카의 깔끔함 위로 에스프레소의 쓴맛과 크레마가 그대로 얹히는 한 잔입니다."},
+        {name:"Valentine's Pandora", price:"27,000", desc:"위스키의 무게감에 카카오의 달콤함과 커피의 쓴맛이 층층이 내려앉는, 블루캣에서 가장 묵직한 시그니처입니다."},
+        {name:"French Connection", price:"21,000", desc:"코냑의 그윽한 향 위에 아마레또의 달콤한 아몬드향이 그대로 얹히는, 단 두 가지로 끝내는 한 잔입니다."}
+      ]},
+    fresh:{ name:"THE FRESH 🌿", hook:"한 잔만으로도 기분이 환기되는 당신.",
+      desc:"민트와 허브, 탄산과 청량감을 좋아합니다. 복잡하게 생각할 것 없이, 가장 가볍게 열리는 결입니다.",
+      picks:[
+        {name:"Mojito", price:"23,000", desc:"민트의 청량함과 라임의 산미가 소다 거품 속에서 가볍게 떠오르는 한 잔입니다."},
+        {name:"Gin & Tonic", price:"18,000", desc:"진의 식물성 향이 토닉의 쌉싸름한 허브향과 만나고, 라임이 그 위에 산뜻함을 더합니다."},
+        {name:"Moscow Mule", price:"20,000", desc:"보드카의 깔끔함 위로 라임의 산미와 생강의 알싸함이 솟아오르는, 청량한 한 잔입니다."}
+      ]},
+    bitter:{ name:"THE BITTER 🍊", hook:"단맛보다 쌉쌀한 여운을 좋아하는 당신.",
+      desc:"쓴맛 뒤에 남는 긴 여운을 즐깁니다. 성인의 취향을 대표하는 쪽에 가깝습니다.",
+      picks:[
+        {name:"Negroni", price:"23,000", desc:"진의 드라이함, 베르무트의 단맛, 캄파리의 선명한 쓴맛이 삼파전을 벌이는, 가장 쌉싸름한 한 잔입니다."},
+        {name:"Dry Martini", price:"23,000", desc:"진 본연의 향을 아주 적은 베르무트만으로 받쳐주는, 가장 적게 말하는 한 잔입니다."},
+        {name:"Rusty Nail", price:"21,000", desc:"블렌디드 위스키의 묵직함에 드람뷰이의 꿀과 허브향이 녹아드는, 천천히 홀짝이게 되는 한 잔입니다."}
+      ]},
+    aromatic:{ name:"THE AROMATIC 🌸", hook:"맛보다 먼저 향에 마음을 빼앗기는 당신.",
+      desc:"꽃과 허브, 향신료 같은 복합적인 향이 먼저 다가옵니다. 한 모금보다 코끝의 순간을 더 오래 기억합니다.",
+      picks:[
+        {name:"Blue Siren", price:"26,000", desc:"진의 드라이함과 화이트와인의 산뜻함이 먼저 부딪히고, 엘더플라워의 은은한 꽃향이 그 사이를 메우는 시그니처입니다."},
+        {name:"Queen of Citrus", price:"28,000", desc:"레드와인의 묵직함 위로 오렌지퀴라소와 복숭아가 겹겹이 쌓이는 시그니처입니다."},
+        {name:"Penicillin", price:"25,000", desc:"스모키한 위스키에 진저의 매콤함과 꿀의 단맛, 레몬의 산미가 겹치는 한 잔입니다."}
+      ]},
+    spirited:{ name:"THE SPIRITED 🥃", hook:"칵테일에서도 술 자체의 존재감을 원하는 당신.",
+      desc:"단맛이나 탄산보다, 베이스 스피릿 본연의 풍미를 더 중요하게 여깁니다. 오크와 묵직함이 당신과 잘 맞습니다.",
+      picks:[
+        {name:"Old Fashioned", price:"25,000", desc:"버번 본연의 맛을 설탕 한 조각과 비터스 몇 방울로만 다듬는, 가장 적게 손댄 한 잔입니다."},
+        {name:"Manhattan", price:"23,000", desc:"버번의 무게감에 스위트 베르무트의 단맛, 비터스의 은은한 쌉싸름함이 더해진 균형 잡힌 한 잔입니다."},
+        {name:"Vieux Carré", price:"25,000", desc:"버번과 코냑, 베네딕틴과 베르무트가 겹겹이 쌓이는, 가장 복잡한 구성의 한 잔입니다."}
+      ]}
+  };
+
+  var answers = {};
+  var qBlocks = document.querySelectorAll(".q-block");
+
+  qBlocks.forEach(function(block){
+    var q = block.getAttribute("data-q");
+    block.querySelectorAll(".pill").forEach(function(btn){
+      btn.addEventListener("click", function(){
+        block.querySelectorAll(".pill").forEach(function(b){ b.classList.remove("active"); });
+        btn.classList.add("active");
+        answers[q] = btn.getAttribute("data-v");
+        checkReady();
+      });
+    });
+  });
+
+  var submitBtn = document.getElementById("submitBtn");
+
+  function checkReady(){
+    var total = qBlocks.length;
+    var answered = Object.keys(answers).length;
+    if(answered >= total){
+      submitBtn.classList.add("ready");
+    } else {
+      submitBtn.classList.remove("ready");
+    }
+  }
+
+  function computeDNA(){
+    var score = {sour:0,sweet:0,fresh:0,bitter:0,aromatic:0,spirited:0};
+    ["q1","q2","q3","q4","q5","q6"].forEach(function(q){
+      var opt = answers[q];
+      var delta = POINTS[q] && POINTS[q][opt];
+      if(!delta) return;
+      Object.keys(delta).forEach(function(d){ score[d] += delta[d]; });
+    });
+    var total = DIMS.reduce(function(sum,d){ return sum + score[d]; }, 0) || 1;
+    var pct = {};
+    DIMS.forEach(function(d){ pct[d] = Math.round(score[d] / total * 100); });
+
+    var top = DIMS[0];
+    DIMS.forEach(function(d){ if(score[d] > score[top]) top = d; });
+
+    return {score:score, pct:pct, top:top};
+  }
+
+  submitBtn.addEventListener("click", function(){
+    if(!submitBtn.classList.contains("ready")) return;
+    var dna = computeDNA();
+    var info = TYPE_INFO[dna.top];
+
+    document.getElementById("typeName").textContent = info.name;
+    document.getElementById("typeHook").textContent = info.hook;
+    document.getElementById("typeDesc").textContent = info.desc;
+
+    var dnaCard = document.getElementById("dnaCard");
+    dnaCard.innerHTML = "";
+    var sorted = DIMS.slice().sort(function(a,b){ return dna.pct[b]-dna.pct[a]; });
+    sorted.forEach(function(d){
+      var row = document.createElement("div");
+      row.className = "dna-row";
+      row.innerHTML =
+        '<span class="dna-label">'+DIM_EMOJI[d]+' '+DIM_LABEL[d]+'</span>' +
+        '<span class="dna-track"><span class="dna-fill" style="width:'+Math.max(dna.pct[d],2)+'%"></span></span>' +
+        '<span class="dna-pct">'+dna.pct[d]+'%</span>';
+      dnaCard.appendChild(row);
+    });
+
+    var picksCard = document.getElementById("picksCard");
+    picksCard.innerHTML = "";
+    info.picks.forEach(function(p){
+      var row = document.createElement("div");
+      row.className = "pick-row";
+      row.innerHTML =
+        '<div class="pick-head"><span class="pick-name">'+p.name+'</span><span class="pick-price">₩'+p.price+'</span></div>' +
+        '<p class="pick-desc">'+p.desc+'</p>';
+      picksCard.appendChild(row);
+    });
+
+    document.getElementById("serveReason").textContent = CONTEXT[answers.q7] || CONTEXT.a;
+
+    var resultEl = document.getElementById("result");
+    resultEl.style.display = "block";
+    resultEl.scrollIntoView({behavior:"smooth"});
+  });
+
+  document.getElementById("retryBtn").addEventListener("click", function(){
+    answers = {};
+    document.querySelectorAll(".pill").forEach(function(b){ b.classList.remove("active"); });
+    document.getElementById("result").style.display = "none";
+    checkReady();
+    window.scrollTo({top:0, behavior:"smooth"});
+  });
+
+  checkReady();
+})();
+</script>
+</body>
+</html>

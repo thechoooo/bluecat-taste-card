@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>위스키 DNA</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Domine:wght@400..700&family=Nunito+Sans:wght@400;600;700&display=swap">
+<style>
+  :root{
+    --cream:#F4EEDF; --ink:#201A12; --muted:#5B5346;
+    --navy:#14213D; --navy-ink:#F4EEDF; --navy-muted:#B9C2D6;
+    --blue:#194AA0; --gold:#C9A24B;
+    --card:#FBF8F0; --border:#E3D9C3;
+    --card-fg:#201A12; --card-muted:#5B5346;
+    --bg:var(--cream); --fg:var(--ink);
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){ --bg:#17110B; --fg:#F1E9D8; --muted:#B9AE98; --card:#231A10; --border:#3A2E1D; --card-fg:#F1E9D8; --card-muted:#B9AE98; color-scheme: dark; }
+  }
+  :root[data-theme="dark"]{ --bg:#17110B; --fg:#F1E9D8; --muted:#B9AE98; --card:#231A10; --border:#3A2E1D; --card-fg:#F1E9D8; --card-muted:#B9AE98; color-scheme: dark; }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--fg);font-family:'Nunito Sans',-apple-system,sans-serif;line-height:1.7}
+  .wrap{max-width:640px;margin:0 auto;padding:0 20px}
+
+  .hero{background:var(--navy);color:var(--navy-ink);padding:72px 0 56px;position:relative;overflow:hidden}
+  .rings{position:absolute;right:-110px;top:50%;transform:translateY(-50%);width:360px;height:360px;opacity:0.45}
+  .rings circle{fill:none;stroke:var(--gold);stroke-opacity:0.35}
+  .hero .wrap{position:relative;z-index:1}
+  .eyebrow{font-size:13px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin:0 0 16px}
+  .hero h1{font-family:'Domine',Georgia,serif;font-size:clamp(32px,7vw,46px);font-weight:700;line-height:1.2;margin:0 0 18px}
+  .hero p{font-size:17px;color:var(--navy-muted);max-width:460px;margin:0 0 10px}
+  .logo-symbol{width:220px;max-width:60%;height:auto;display:block;margin:0 0 24px;filter:brightness(0) invert(1);opacity:0.95}
+  .logo-wordmark{height:22px;width:auto;display:inline-block;vertical-align:middle;margin-right:10px}
+  footer .wrap{display:flex;align-items:center;justify-content:center;gap:10px}
+
+  main{padding:40px 0 100px}
+  .q-block{margin-bottom:44px}
+  .q-num{font-size:12px;font-weight:700;letter-spacing:2px;color:var(--gold);text-transform:uppercase;display:block;margin-bottom:10px}
+  .q-text{font-family:'Domine',Georgia,serif;font-size:21px;font-weight:700;margin:0 0 18px;line-height:1.4}
+  .pills{display:flex;flex-direction:column;gap:10px}
+  .pill{
+    font-family:'Nunito Sans',sans-serif;
+    font-size:15px;
+    padding:14px 18px;
+    border-radius:14px;
+    border:1px solid var(--border);
+    background:var(--card);
+    color:var(--fg);
+    cursor:pointer;
+    transition:background .15s,border-color .15s,color .15s;
+    text-align:left;
+  }
+  .pill:hover{border-color:var(--blue)}
+  .pill.active{background:var(--blue);border-color:var(--blue);color:#F4EEDF}
+
+  .submit-row{margin-top:56px;text-align:center}
+  #submitBtn{
+    font-family:'Nunito Sans',sans-serif;
+    font-size:17px;font-weight:700;
+    background:var(--gold);color:var(--ink);
+    border:none;border-radius:999px;
+    padding:16px 40px;cursor:pointer;
+    opacity:0.4;pointer-events:none;
+    transition:opacity .2s;
+  }
+  #submitBtn.ready{opacity:1;pointer-events:auto}
+  #submitBtn:hover.ready{filter:brightness(1.05)}
+
+  #result{display:none;background:var(--navy);color:var(--navy-ink);padding:72px 0 88px;margin-top:0}
+  #result .wrap{text-align:center}
+  .result-eyebrow{font-size:13px;font-weight:700;letter-spacing:2px;color:var(--gold);text-transform:uppercase;margin:0 0 14px}
+  #typeName{font-family:'Domine',Georgia,serif;font-size:clamp(28px,6vw,38px);font-weight:700;margin:0 0 10px;line-height:1.3}
+  #typeHook{font-size:15px;color:var(--navy-muted);margin:0 0 6px}
+  #typeDesc{font-size:15px;color:var(--navy-muted);max-width:480px;margin:0 auto 36px;line-height:1.8}
+
+  .section-label{font-size:13px;font-weight:700;letter-spacing:2px;color:var(--gold);text-transform:uppercase;text-align:left;margin:0 0 16px}
+
+  .dna-card{
+    background:var(--card); border:1px solid var(--border); border-radius:16px;
+    padding:28px; margin:0 0 32px; text-align:left;
+  }
+  .dna-row{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+  .dna-row:last-child{margin-bottom:0}
+  .dna-label{font-size:14px;color:var(--card-fg);width:96px;flex-shrink:0}
+  .dna-track{display:block;flex:1;height:10px;background:var(--border);border-radius:999px;overflow:hidden}
+  .dna-fill{display:block;height:100%;background:var(--blue);border-radius:999px}
+  .dna-pct{font-size:14px;font-weight:700;color:var(--card-fg);width:42px;text-align:right;flex-shrink:0}
+
+  .picks-card{
+    background:var(--card); border:1px solid var(--border); border-radius:16px;
+    padding:28px; margin:0 0 32px; text-align:left;
+  }
+  .pick-row{padding:16px 0;border-bottom:1px solid var(--border)}
+  .pick-row:last-child{border-bottom:none}
+  .pick-head{display:flex;justify-content:space-between;align-items:baseline;margin:0 0 6px}
+  .pick-name{font-family:'Domine',Georgia,serif;font-size:17px;font-weight:700;color:var(--card-fg)}
+  .pick-price{font-size:13px;color:var(--card-muted)}
+  .pick-desc{font-size:14px;color:var(--card-muted);line-height:1.7;margin:0}
+
+  .serve-card{
+    background:var(--blue); border-radius:16px;
+    padding:28px; margin:0 0 32px; text-align:left; color:#F4EEDF;
+  }
+  .serve-method{font-family:'Domine',Georgia,serif;font-size:22px;font-weight:700;margin:0 0 8px}
+  .serve-reason{font-size:14px;color:#C9D4EA;margin:0;line-height:1.7}
+
+  .closing{font-size:14px;color:var(--navy-muted);line-height:1.8;max-width:460px;margin:0 auto 32px}
+  #retryBtn{
+    font-family:'Nunito Sans',sans-serif;font-size:15px;font-weight:700;
+    background:transparent;color:var(--navy-ink);
+    border:1px solid var(--navy-muted);border-radius:999px;
+    padding:12px 28px;cursor:pointer;
+  }
+  #retryBtn:hover{border-color:var(--gold);color:var(--gold)}
+
+  footer{padding:32px 20px 48px;text-align:center}
+  footer p{font-size:12px;color:var(--muted);margin:0}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <svg class="rings" viewBox="0 0 360 360" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="180" cy="180" r="170" stroke-width="1"/>
+    <circle cx="180" cy="180" r="135" stroke-width="1"/>
+    <circle cx="180" cy="180" r="100" stroke-width="1"/>
+    <circle cx="180" cy="180" r="65" stroke-width="1"/>
+  </svg>
+  <div class="wrap">
+    <img class="logo-symbol" src="bluecat-wordmark-full.png" alt="Blue Cat — Harukist Muzic Library">
+    <p class="eyebrow">Whisky DNA</p>
+    <h1>위스키 DNA</h1>
+    <p>위스키 용어는 몰라도 괜찮습니다. 평소 좋아하는 음료, 커피, 향, 음식을 몇 가지 고르면 — 당신의 위스키 취향과 첫 한 병이 자연스럽게 드러납니다.</p>
+  </div>
+</div>
+
+<main>
+  <div class="wrap">
+
+    <div class="q-block" data-q="q1">
+      <span class="q-num">Q1</span>
+      <p class="q-text">평소 어떤 음료를 가장 좋아하세요?</p>
+      <div class="pills">
+        <button class="pill" data-v="a">달콤한 음료</button>
+        <button class="pill" data-v="b">상큼하고 가벼운 음료</button>
+        <button class="pill" data-v="c">깔끔하고 드라이한 음료</button>
+        <button class="pill" data-v="d">진하고 쌉쌀한 음료</button>
+        <button class="pill" data-v="e">특별히 가리는 것 없이 다양하게</button>
+      </div>
+    </div>
+
+    <div class="q-block" data-q="q2">
+      <span class="q-num">Q2</span>
+      <p class="q-text">커피를 마신다면 어떤 스타일인가요?</p>
+      <div class="pills">
+        <button class="pill" data-v="a">라떼처럼 부드럽고 달콤한 커피</button>
+        <button class="pill" data-v="b">산미가 있는 핸드드립</button>
+        <button class="pill" data-v="c">고소하고 밸런스 좋은 아메리카노</button>
+        <button class="pill" data-v="d">진하고 쌉싸름한 에스프레소</button>
+        <button class="pill" data-v="e">커피를 잘 안 마셔요</button>
+      </div>
+    </div>
+
+    <div class="q-block" data-q="q3">
+      <span class="q-num">Q3</span>
+      <p class="q-text">아래 중 가장 끌리는 향은?</p>
+      <div class="pills">
+        <button class="pill" data-v="a">바닐라와 캐러멜</button>
+        <button class="pill" data-v="b">사과와 배</button>
+        <button class="pill" data-v="c">건포도와 초콜릿</button>
+        <button class="pill" data-v="d">나무와 향신료</button>
+        <button class="pill" data-v="e">장작, 연기, 숯</button>
+      </div>
+    </div>
+
+    <div class="q-block" data-q="q4">
+      <span class="q-num">Q4</span>
+      <p class="q-text">음식으로 비유한다면?</p>
+      <div class="pills">
+        <button class="pill" data-v="a">바닐라 아이스크림</button>
+        <button class="pill" data-v="b">사과파이</button>
+        <button class="pill" data-v="c">다크초콜릿</button>
+        <button class="pill" data-v="d">구운 견과류와 향신료</button>
+        <button class="pill" data-v="e">훈연한 고기</button>
+      </div>
+    </div>
+
+    <div class="q-block" data-q="q5">
+      <span class="q-num">Q5</span>
+      <p class="q-text">오늘 위스키를 마실 때 어떤 느낌을 원하세요?</p>
+      <div class="pills">
+        <button class="pill" data-v="a">부드럽고 편안하게</button>
+        <button class="pill" data-v="b">상쾌하고 가볍게</button>
+        <button class="pill" data-v="c">묵직하고 깊게</button>
+        <button class="pill" data-v="d">강렬하고 개성 있게</button>
+        <button class="pill" data-v="e">아직 잘 모르겠다</button>
+      </div>
+    </div>
+
+    <div class="q-block" data-q="q6">
+      <span class="q-num">Q6</span>
+      <p class="q-text">오늘 위스키를 마시는 이유는?</p>
+      <div class="pills">
+        <button class="pill" data-v="a">처음이라 가볍게 경험해보고 싶어서</button>
+        <button class="pill" data-v="b">맛있는 술을 발견하고 싶어서</button>
+        <button class="pill" data-v="c">천천히 혼자 즐기고 싶어서</button>
+        <button class="pill" data-v="d">좋은 사람과 이야기를 나누면서</button>
+        <button class="pill" data-v="e">평소와 다른 특별한 경험을 하고 싶어서</button>
+      </div>
+    </div>
+
+    <div class="submit-row">
+      <button id="submitBtn">나의 위스키 DNA 확인하기</button>
+    </div>
+
+  </div>
+</main>
+
+<div id="result">
+  <div class="wrap">
+    <img class="logo-symbol" src="bluecat-wordmark-full.png" alt="Blue Cat — Harukist Muzic Library" style="margin-inline:auto">
+    <p class="result-eyebrow">Your Whisky Type</p>
+    <h2 id="typeName">—</h2>
+    <p id="typeHook">—</p>
+    <p id="typeDesc">—</p>
+
+    <p class="section-label">Whisky DNA</p>
+    <div class="dna-card" id="dnaCard"></div>
+
+    <p class="section-label">첫 위스키 추천 3종</p>
+    <div class="picks-card" id="picksCard"></div>
+
+    <p class="section-label">오늘의 음용법</p>
+    <div class="serve-card">
+      <p class="serve-method" id="serveMethod">—</p>
+      <p class="serve-reason" id="serveReason">—</p>
+    </div>
+
+    <p class="closing">오늘의 결과는 지금 당신의 취향이지, 앞으로도 그렇다는 뜻은 아닙니다. 다음에 다시 이 카드를 든다면, 다른 결이 나올 수도 있습니다 — 그만큼 당신의 위스키 취향이 넓어졌다는 뜻입니다.</p>
+    <button id="retryBtn">다시 찾아보기</button>
+  </div>
+</div>
+
+<footer>
+  <div class="wrap">
+    <img class="logo-wordmark" src="bluecat-wordmark.png" alt="Blue Cat">
+    <p>위스키 DNA</p>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var DIMS = ["smooth","fruit","sherry","spice","peat"];
+  var DIM_LABEL = {smooth:"부드러움", fruit:"과일", sherry:"셰리", spice:"스파이스", peat:"피트"};
+  var DIM_EMOJI = {smooth:"🍯", fruit:"🍎", sherry:"🍫", spice:"🌶️", peat:"🌫️"};
+
+  var POINTS = {
+    q1: { a:{smooth:2,sherry:1}, b:{fruit:3}, c:{spice:2,peat:1}, d:{sherry:2,peat:1}, e:{smooth:1,fruit:1,sherry:1,spice:1,peat:1} },
+    q2: { a:{smooth:3}, b:{fruit:3}, c:{sherry:2,smooth:1}, d:{spice:2,peat:1}, e:{smooth:1,fruit:1,sherry:1,spice:1,peat:1} },
+    q3: { a:{smooth:3}, b:{fruit:3}, c:{sherry:3}, d:{spice:3}, e:{peat:4} },
+    q4: { a:{smooth:2}, b:{fruit:2}, c:{sherry:2}, d:{spice:2}, e:{peat:3} },
+    q5: { a:{smooth:2}, b:{fruit:2}, c:{sherry:2}, d:{spice:1,peat:2}, e:{smooth:1,fruit:1,sherry:1,spice:1,peat:1} }
+  };
+
+  var SERVING = {
+    a:{method:"HIGHBALL — 하이볼", reason:"위스키의 향은 그대로 느끼면서도 알코올의 강도는 낮춰, 편하게 첫 잔을 시작할 수 있습니다."},
+    b:{method:"ON THE ROCKS — 온더락", reason:"얼음이 천천히 녹으며 향이 열리는 과정 자체를 즐길 수 있습니다."},
+    c:{method:"NEAT — 니트", reason:"아무것도 더하지 않아야, 온전한 결을 그대로 느낄 수 있습니다."},
+    d:{method:"ON THE ROCKS — 온더락", reason:"대화가 길어져도 부담 없이, 천천히 함께 비울 수 있습니다."},
+    e:{method:"NEAT — 니트", reason:"오늘이 아니면 다시 없을 한 모금이라면, 있는 그대로가 맞습니다."}
+  };
+
+  var TYPE_INFO = {
+    smooth:{ name:"TYPE A · 부드러운 바닐라", hook:"처음 만나는 위스키가 너무 강하지 않았으면 하는 당신.",
+      desc:"바닐라와 꿀, 캐러멜처럼 편안하고 부드러운 결에 끌립니다. 처음부터 어려운 위스키를 만날 필요는 없습니다 — 좋은 첫 만남이 생각보다 오래갑니다.",
+      picks:[
+        {name:"Balvenie 12y", price:"20,000", desc:"더블우드 숙성의 부드러움. 꿀과 바닐라가 편안하게 이어집니다."},
+        {name:"Hibiki Harmony", price:"20,000", desc:"여러 원액을 블렌딩한 섬세한 결. 꽃향과 꿀이 조화를 이루는 산토리의 대표 블렌디드입니다."},
+        {name:"Buffalo Trace", price:"15,000", desc:"캐러멜과 바닐라의 클래식한 버번. 편하게 시작하기 좋은 베이스입니다."}
+      ]},
+    fruit:{ name:"TYPE B · 과일과 꽃", hook:"위스키에서도 봄날의 산뜻함을 찾는 사람.",
+      desc:"사과와 배, 꽃향 같은 가벼운 과일향이 먼저 다가옵니다. 복잡하게 따질 것 없이, 가장 자연스럽게 열리는 결입니다.",
+      picks:[
+        {name:"Glenfiddich 15y", price:"22,000", desc:"세계적으로 가장 많이 알려진 스페이사이드 몰트 중 하나. 배·사과향의 부드러움이 중심입니다."},
+        {name:"Glen Grant 15y", price:"23,000", desc:"가볍고 과일향이 두드러지는 스페이사이드 몰트. 이탈리아에서 특히 사랑받아온 브랜드로 알려져 있습니다."},
+        {name:"Glenmorangie Lasanta", price:"20,000", desc:"셰리 캐스크 피니시. 가벼운 바디에 초콜릿과 건포도향이 얹힙니다."}
+      ]},
+    sherry:{ name:"TYPE C · 달콤하고 깊은", hook:"첫 모금보다, 잔을 비운 뒤의 여운을 좋아하는 사람.",
+      desc:"건포도와 다크초콜릿처럼 짙은 단맛이 서서히 퍼집니다. 셰리 캐스크 특유의 묵직한 결이 당신과 잘 맞습니다.",
+      picks:[
+        {name:"GlenDronach 12y", price:"20,000", desc:"셰리 캐스크 숙성. 건포도와 다크초콜릿처럼 짙은 단맛이 중심입니다."},
+        {name:"Macallan 12y Double Cask", price:"20,000", desc:"셰리와 버번 캐스크를 함께 쓴 균형. 바닐라와 건포도, 오크가 고르게 자리잡습니다."},
+        {name:"Dalmore 12y", price:"22,000", desc:"셰리 캐스크 숙성. 오렌지와 다크초콜릿, 스파이스가 겹겹이 쌓입니다."}
+      ]},
+    spice:{ name:"TYPE D · 드라이 & 스파이시", hook:"달콤함보다는, 선명하고 깊은 맛.",
+      desc:"오크와 후추, 스파이스의 드라이한 피니시가 끌립니다. 미국 위스키 특유의 선명한 결이 당신에게 어울립니다.",
+      picks:[
+        {name:"Wild Turkey 8y", price:"15,000", desc:"높은 도수의 묵직하고 스파이시한 전통 버번. 또렷하게 존재감을 남깁니다."},
+        {name:"Sagamore Rye", price:"18,000", desc:"호밀(rye) 비중이 높아 스파이시하고 드라이합니다. 미국 메릴랜드산 라이 위스키입니다."},
+        {name:"WhistlePig 10y", price:"23,000", desc:"100% 호밀로 만든 라이 위스키. 스파이시한 결 끝에 꿀처럼 단맛이 스칩니다."}
+      ]},
+    peat:{ name:"TYPE E · 스모키 & 피트", hook:"위스키에서 불과 바다를 느끼고 싶은 사람.",
+      desc:"연기와 숯, 바다 내음 같은 향이 가장 먼저 눈에 띕니다. 위스키가 아직 낯설다면 조금 의외의 결과일 수도 있습니다 — 그래도 한번 믿어보셔도 좋습니다.",
+      picks:[
+        {name:"Laphroaig 10y", price:"17,000", desc:"아일라를 대표하는 요오드·소독약 같은 강렬한 피트향. 가장 아일라다운 한 모금입니다."},
+        {name:"Ardbeg 10y", price:"20,000", desc:"아일라 중에서도 손꼽히는 강도의 피트. 거친 스모키함 사이로 은은한 시트러스가 스칩니다."},
+        {name:"Lagavulin 16y", price:"28,000", desc:"아일라 중에서도 가장 깊고 묵직하다고 평가받는 결. 짙은 피트 아래 셰리의 단맛이 자리잡습니다."}
+      ]}
+  };
+
+  var answers = {};
+  var qBlocks = document.querySelectorAll(".q-block");
+
+  qBlocks.forEach(function(block){
+    var q = block.getAttribute("data-q");
+    block.querySelectorAll(".pill").forEach(function(btn){
+      btn.addEventListener("click", function(){
+        block.querySelectorAll(".pill").forEach(function(b){ b.classList.remove("active"); });
+        btn.classList.add("active");
+        answers[q] = btn.getAttribute("data-v");
+        checkReady();
+      });
+    });
+  });
+
+  var submitBtn = document.getElementById("submitBtn");
+
+  function checkReady(){
+    var total = qBlocks.length;
+    var answered = Object.keys(answers).length;
+    if(answered >= total){
+      submitBtn.classList.add("ready");
+    } else {
+      submitBtn.classList.remove("ready");
+    }
+  }
+
+  function computeDNA(){
+    var score = {smooth:0,fruit:0,sherry:0,spice:0,peat:0};
+    ["q1","q2","q3","q4","q5"].forEach(function(q){
+      var opt = answers[q];
+      var delta = POINTS[q] && POINTS[q][opt];
+      if(!delta) return;
+      Object.keys(delta).forEach(function(d){ score[d] += delta[d]; });
+    });
+    var total = DIMS.reduce(function(sum,d){ return sum + score[d]; }, 0) || 1;
+    var pct = {};
+    DIMS.forEach(function(d){ pct[d] = Math.round(score[d] / total * 100); });
+
+    var top = DIMS[0];
+    DIMS.forEach(function(d){ if(score[d] > score[top]) top = d; });
+
+    return {score:score, pct:pct, top:top};
+  }
+
+  submitBtn.addEventListener("click", function(){
+    if(!submitBtn.classList.contains("ready")) return;
+    var dna = computeDNA();
+    var info = TYPE_INFO[dna.top];
+
+    document.getElementById("typeName").textContent = info.name;
+    document.getElementById("typeHook").textContent = info.hook;
+    document.getElementById("typeDesc").textContent = info.desc;
+
+    var dnaCard = document.getElementById("dnaCard");
+    dnaCard.innerHTML = "";
+    var sorted = DIMS.slice().sort(function(a,b){ return dna.pct[b]-dna.pct[a]; });
+    sorted.forEach(function(d){
+      var row = document.createElement("div");
+      row.className = "dna-row";
+      row.innerHTML =
+        '<span class="dna-label">'+DIM_EMOJI[d]+' '+DIM_LABEL[d]+'</span>' +
+        '<span class="dna-track"><span class="dna-fill" style="width:'+Math.max(dna.pct[d],2)+'%"></span></span>' +
+        '<span class="dna-pct">'+dna.pct[d]+'%</span>';
+      dnaCard.appendChild(row);
+    });
+
+    var picksCard = document.getElementById("picksCard");
+    picksCard.innerHTML = "";
+    info.picks.forEach(function(p){
+      var row = document.createElement("div");
+      row.className = "pick-row";
+      row.innerHTML =
+        '<div class="pick-head"><span class="pick-name">'+p.name+'</span><span class="pick-price">₩'+p.price+'</span></div>' +
+        '<p class="pick-desc">'+p.desc+'</p>';
+      picksCard.appendChild(row);
+    });
+
+    var serve = SERVING[answers.q6] || SERVING.a;
+    document.getElementById("serveMethod").textContent = serve.method;
+    document.getElementById("serveReason").textContent = serve.reason;
+
+    var resultEl = document.getElementById("result");
+    resultEl.style.display = "block";
+    resultEl.scrollIntoView({behavior:"smooth"});
+  });
+
+  document.getElementById("retryBtn").addEventListener("click", function(){
+    answers = {};
+    document.querySelectorAll(".pill").forEach(function(b){ b.classList.remove("active"); });
+    document.getElementById("result").style.display = "none";
+    checkReady();
+    window.scrollTo({top:0, behavior:"smooth"});
+  });
+
+  checkReady();
+})();
+</script>
+</body>
+</html>
