@@ -95,10 +95,13 @@ ul.plain li::before { content: ""; width: 8px; height: 8px; margin-top: 11px; ba
 .contact a.call, .contact button { background: var(--band-fg); color: #0C1A3A; border: 0; border-radius: 4px; padding: 14px 22px; min-height: 50px; display: inline-flex; align-items: center; font: inherit; font-weight: 500; cursor: pointer; text-decoration: none; }
 .contact button.ghost { background: transparent; color: var(--band-fg); border: 1px solid var(--band-fg); }
 .inq { display: grid; gap: 12px; background: rgba(255,255,255,.08); padding: 18px; }
-.inq .fields { display: grid; grid-template-columns: 1fr 1fr; gap: 16px 12px; }
+.inq .fields { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 16px 12px; }
 .inq .fields label:nth-child(-n+2) { grid-column: 1 / -1; }
-.inq label { display: grid; gap: 7px; font-size: 14px; font-weight: 500; min-width: 0; }
-.inq input { font: inherit; font-size: 16px; height: 50px; padding: 0 14px; border: 1px solid transparent; border-radius: 4px; background: #F2F6FF; color: #0C1A3A; min-width: 0; width: 100%; color-scheme: light; }
+.inq label { display: grid; grid-template-columns: minmax(0, 1fr); gap: 7px; font-size: 14px; font-weight: 500; min-width: 0; }
+.inq input { font: inherit; font-size: 16px; height: 50px; padding: 0 14px; border: 1px solid transparent; border-radius: 4px; background: #F2F6FF; color: #0C1A3A; min-width: 0; max-width: 100%; width: 100%; display: block; -webkit-appearance: none; appearance: none; color-scheme: light; }
+.inq input::-webkit-date-and-time-value { text-align: left; min-width: 0; margin: 0; }
+.inq input::-webkit-datetime-edit { padding: 0; }
+@supports (-webkit-touch-callout: none) { .inq input[type="date"]:required:invalid::before { content: "날짜 선택"; color: #7B879F; } }
 .inq input:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
 .inq .msg { font-size: 15px; margin: 0; }
 .inq .msg.err { font-weight: 700; }
@@ -194,7 +197,7 @@ footer { padding-block: 28px 48px; font-size: 13px; color: var(--muted); font-fa
   <form class="inq" id="inq" novalidate>
     <div class="fields">
       <label for="f-name">예약자 성함<input id="f-name" type="text" autocomplete="name" maxlength="20" placeholder="성함"></label>
-      <label for="f-date">희망 날짜<input id="f-date" type="date" min="2026-11-01" max="2026-12-31"></label>
+      <label for="f-date">희망 날짜<input id="f-date" type="date" required min="2026-11-01" max="2026-12-31"></label>
       <label for="f-n">인원 (명)<input id="f-n" type="number" inputmode="numeric" min="1" max="24" placeholder="16~24"></label>
       <label for="f-time">시작 시간<input id="f-time" type="time" value="19:00" step="1800"></label>
     </div>
