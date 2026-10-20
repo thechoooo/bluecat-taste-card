@@ -98,9 +98,9 @@ ul.plain li::before { content: ""; width: 8px; height: 8px; margin-top: 11px; ba
 .inq .fields { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 16px 12px; }
 .inq .fields label:nth-child(-n+2) { grid-column: 1 / -1; }
 .inq label { display: grid; grid-template-columns: minmax(0, 1fr); gap: 7px; font-size: 14px; font-weight: 500; min-width: 0; }
-.inq input { font: inherit; font-size: 16px; height: 50px; padding: 0 14px; border: 1px solid transparent; border-radius: 4px; background: #F2F6FF; color: #0C1A3A; min-width: 0; max-width: 100%; width: 100%; display: block; -webkit-appearance: none; appearance: none; color-scheme: light; }
-.inq input::-webkit-date-and-time-value { text-align: left; min-width: 0; margin: 0; }
-.inq input::-webkit-datetime-edit { padding: 0; }
+.inq input { font: inherit; font-size: 16px; height: 50px; padding: 0 14px; border: 1px solid transparent; border-radius: 4px; background: #F2F6FF; color: #0C1A3A; min-width: 0; max-width: 100%; width: 100%; display: flex; align-items: center; line-height: normal; -webkit-appearance: none; appearance: none; color-scheme: light; }
+.inq input::-webkit-date-and-time-value { text-align: left; min-width: 0; margin: auto 0; line-height: normal; }
+.inq input::-webkit-datetime-edit { padding: 0; display: flex; align-items: center; }
 @supports (-webkit-touch-callout: none) { .inq input[type="date"]:required:invalid::before { content: "날짜 선택"; color: #7B879F; } }
 .inq input:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
 .inq .msg { font-size: 15px; margin: 0; }
