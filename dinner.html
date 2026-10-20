@@ -18,16 +18,16 @@
   --btn: #E3A33B;
   --btn-fg: #1B1303;
   --font-body: "IBM Plex Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
-  --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  --font-mono: "IBM Plex Mono", "IBM Plex Sans KR", ui-monospace, "SFMono-Regular", Menlo, monospace;
 }
 * { box-sizing: border-box; }
 body { background: var(--bg); color: var(--fg); font-family: var(--font-body); font-size: 16px; line-height: 1.7; padding-inline: 20px; padding-block: 0; word-break: keep-all; }
 .wrap { max-width: 880px; margin-inline: auto; }
 h1, h2, h3, p { margin: 0; text-wrap: balance; }
 section { padding-block: 56px; border-top: 1px solid var(--line); }
-.eyebrow { font-family: var(--font-mono); font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); }
+.eyebrow { font-family: var(--font-mono); font-size: 13px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); }
 h2 { font-size: clamp(24px, 4.4vw, 32px); font-weight: 700; line-height: 1.35; margin-top: 10px; }
-.lead { color: var(--muted); max-width: 60ch; margin-top: 14px; }
+.lead { color: var(--muted); max-width: 60ch; margin-top: 14px; font-size: clamp(16px, 2.3vw, 17px); }
 
 /* hero */
 .hero { padding-block: 64px 56px; border-top: 0; }
@@ -39,11 +39,11 @@ h2 { font-size: clamp(24px, 4.4vw, 32px); font-weight: 700; line-height: 1.35; m
 .big { font-family: var(--font-mono); font-weight: 500; font-size: clamp(44px, 11vw, 80px); line-height: 1; letter-spacing: -.03em; margin-top: 28px; color: var(--accent); display: flex; align-items: baseline; gap: .12em; flex-wrap: wrap; }
 .big small { font-family: var(--font-body); font-size: clamp(18px, 3.4vw, 26px); font-weight: 400; letter-spacing: 0; color: var(--fg); }
 .tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 28px; }
-.tags span { border: 1px solid var(--line); background: var(--surface); padding: 6px 14px; border-radius: 999px; font-size: 14px; }
+.tags span { border: 1px solid var(--line); background: var(--surface); padding: 7px 15px; border-radius: 999px; font-size: 15px; }
 .big small strong { color: var(--accent); font-weight: 700; }
 .tags span.hl { background: var(--accent); color: var(--accent-fg); border-color: var(--accent); font-weight: 500; }
 dl.facts dd span strong { display: inline; color: var(--fg); font-weight: 700; }
-.cta { display: inline-flex; margin-top: 32px; background: var(--accent); color: var(--accent-fg); padding: 14px 26px; border-radius: 4px; font-weight: 500; text-decoration: none; }
+.cta { display: flex; width: fit-content; margin: 32px 0 0 auto; background: var(--accent); color: var(--accent-fg); padding: 15px 28px; border-radius: 4px; font-weight: 700; text-decoration: none; }
 .cta:focus-visible, button:focus-visible, a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 
 
@@ -57,64 +57,54 @@ dl.facts dd span strong { display: inline; color: var(--fg); font-weight: 700; }
   .shots.space figure:first-child { grid-column: 1 / -1; }
   .shots.space figure:first-child img { aspect-ratio: 4 / 3; object-position: 50% 58%; }
   }
-/* hero button: amber, right aligned */
-.cta { display: flex; width: fit-content; margin-left: auto; background: var(--btn); color: var(--btn-fg); font-weight: 700; }
 .contact a.call#sms { background: var(--btn); color: var(--btn-fg); font-weight: 700; }
 
 /* facts */
 dl.facts { display: grid; grid-template-columns: 1fr; margin: 32px 0 0; border: 1px solid var(--line); background: var(--surface); }
 dl.facts div { display: grid; grid-template-columns: 120px 1fr; gap: 16px; padding: 18px 20px; border-top: 1px solid var(--line); }
 dl.facts div:first-child { border-top: 0; }
-dl.facts dt { font-family: var(--font-mono); font-size: 12px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); padding-top: 4px; }
+dl.facts dt { font-size: 14px; font-weight: 500; letter-spacing: .02em; color: var(--muted); padding-top: 2px; }
 dl.facts dd { margin: 0; font-weight: 500; min-width: 0; }
-dl.facts dd span { display: block; font-weight: 400; color: var(--muted); font-size: 14px; }
+dl.facts dd span { display: block; font-weight: 400; color: var(--muted); font-size: 15px; margin-top: 2px; }
 
 /* course */
-.course { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin-top: 28px; }
-.course div { border: 1px solid var(--line); background: var(--surface); padding: 20px; min-width: 0; }
-.course div.main { background: var(--band); color: var(--band-fg); border-color: var(--band); }
-.course .k { font-family: var(--font-mono); font-size: 12px; letter-spacing: .1em; opacity: .75; }
-.course .v { font-size: 18px; font-weight: 700; margin-top: 6px; }
-.note { font-size: 14px; color: var(--muted); margin-top: 16px; }
+.note { font-size: 15px; color: var(--muted); margin-top: 16px; }
 
 /* calculator */
 .calc { margin-top: 28px; background: var(--band); color: var(--band-fg); padding: 28px; display: grid; grid-template-columns: 1fr 1fr; gap: 28px; align-items: center; }
-.calc .lbl { font-size: 14px; opacity: .8; }
+.calc .lbl { font-size: 15px; opacity: .85; }
 .stepper { display: flex; align-items: center; gap: 16px; margin-top: 10px; }
 .stepper button { width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--band-fg); background: transparent; color: var(--band-fg); font-size: 22px; line-height: 1; cursor: pointer; }
 .stepper button:disabled { opacity: .35; cursor: default; }
 .stepper output { font-family: var(--font-mono); font-size: 40px; min-width: 2.2ch; text-align: center; font-variant-numeric: tabular-nums; }
 .stepper .unit { font-size: 16px; opacity: .8; }
 .total { font-family: var(--font-mono); font-size: clamp(34px, 7vw, 52px); font-variant-numeric: tabular-nums; margin-top: 6px; line-height: 1.1; }
-.calc small { display: block; font-size: 13px; opacity: .8; margin-top: 8px; }
+.calc small { display: block; font-size: 14px; opacity: .85; margin-top: 8px; }
 
 /* lists */
 ul.plain { list-style: none; padding: 0; margin: 24px 0 0; display: grid; gap: 14px; }
 ul.plain li { display: grid; grid-template-columns: 20px 1fr; gap: 12px; }
 ul.plain li::before { content: ""; width: 8px; height: 8px; margin-top: 11px; background: var(--accent); border-radius: 50%; }
-.route { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 12px; margin-top: 28px; }
-.route div { border: 1px solid var(--line); background: var(--surface); padding: 18px 20px; min-width: 0; }
-.route .k { font-family: var(--font-mono); font-size: 12px; letter-spacing: .1em; color: var(--accent); }
-.route .v { margin-top: 4px; font-weight: 500; }
-.warn { margin-top: 16px; padding: 14px 18px; border-left: 3px solid var(--accent); background: var(--surface); font-size: 15px; }
+.warn { margin-top: 16px; padding: 14px 18px; border-left: 3px solid var(--accent); background: var(--surface); font-size: 16px; }
 
 /* contact */
 .contact { background: var(--band); color: var(--band-fg); padding: 44px 28px; margin-top: 56px; display: grid; gap: 14px; }
 .contact .eyebrow { color: var(--band-fg); opacity: .75; }
-.contact .name { font-size: 18px; }
+.contact .name { font-size: 20px; font-weight: 500; }
 .contact .row { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
-.contact a.call, .contact button { background: var(--band-fg); color: #0C1A3A; border: 0; border-radius: 4px; padding: 12px 20px; font: inherit; font-weight: 500; cursor: pointer; text-decoration: none; }
+.contact a.call, .contact button { background: var(--band-fg); color: #0C1A3A; border: 0; border-radius: 4px; padding: 14px 22px; min-height: 50px; display: inline-flex; align-items: center; font: inherit; font-weight: 500; cursor: pointer; text-decoration: none; }
 .contact button.ghost { background: transparent; color: var(--band-fg); border: 1px solid var(--band-fg); }
 .inq { display: grid; gap: 12px; background: rgba(255,255,255,.08); padding: 18px; }
-.inq .fields { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; }
-.inq label { display: grid; gap: 6px; font-size: 13px; min-width: 0; }
-.inq input { font: inherit; font-size: 16px; padding: 10px 12px; border: 1px solid transparent; border-radius: 4px; background: #F2F6FF; color: #0C1A3A; min-width: 0; width: 100%; color-scheme: light; }
+.inq .fields { display: grid; grid-template-columns: 1fr 1fr; gap: 16px 12px; }
+.inq .fields label:nth-child(-n+2) { grid-column: 1 / -1; }
+.inq label { display: grid; gap: 7px; font-size: 14px; font-weight: 500; min-width: 0; }
+.inq input { font: inherit; font-size: 16px; height: 50px; padding: 0 14px; border: 1px solid transparent; border-radius: 4px; background: #F2F6FF; color: #0C1A3A; min-width: 0; width: 100%; color-scheme: light; }
 .inq input:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
-.inq .msg { font-size: 14px; margin: 0; }
+.inq .msg { font-size: 15px; margin: 0; }
 .inq .msg.err { font-weight: 700; }
-.inq .preview { margin: 0; padding: 12px 14px; background: rgba(0,0,0,.22); border-radius: 4px; font: 14px/1.6 var(--font-body); white-space: pre-wrap; word-break: keep-all; }
-.contact a.call[aria-disabled="true"] { opacity: .45; pointer-events: none; }
-.contact p { font-size: 14px; opacity: .85; }
+.inq .preview { margin: 0; padding: 14px 16px; background: rgba(0,0,0,.22); border-radius: 4px; font: 15px/1.7 var(--font-body); white-space: pre-wrap; word-break: keep-all; }
+.contact a.call#sms[aria-disabled="true"] { background: rgba(255,255,255,.16); color: rgba(255,255,255,.6); pointer-events: none; }
+.contact p { font-size: 15px; opacity: .9; }
 footer { padding-block: 28px 48px; font-size: 13px; color: var(--muted); font-family: var(--font-mono); letter-spacing: .06em; }
 
 @media (max-width: 560px) {
@@ -163,12 +153,7 @@ footer { padding-block: 28px 48px; font-size: 13px; color: var(--muted); font-fa
   <div class="eyebrow">Course</div>
   <h2>애피타이저에서 디저트까지, 5종 코스</h2>
   <p class="lead">한우 스테이크를 중심으로 구성한 코스입니다. 모든 손님이 같은 순서로 같은 요리를 받습니다.</p>
-  <div class="course">
-    <div><div class="k">START</div><div class="v">애피타이저</div></div>
-    <div class="main"><div class="k">MAIN</div><div class="v">한우 스테이크</div></div>
-    <div><div class="k">FINISH</div><div class="v">디저트</div></div>
-  </div>
-  <p class="note">위 세 가지를 포함해 총 5종으로 나옵니다. 상세 메뉴는 문의 주시면 안내드립니다.</p>
+  <p class="note">애피타이저, 디저트를 포함해 총 5종으로 나옵니다.</p>
 </section>
 
 <section>
@@ -201,17 +186,6 @@ footer { padding-block: 28px 48px; font-size: 13px; color: var(--muted); font-fa
     <li><span>재즈와 빈티지 오디오가 있는 공간입니다. 음악 속에서 대화할 수 있는 음량으로 맞춥니다.</span></li>
     <li><span>술을 마시지 않는 분도 논알콜 메뉴로 같은 코스를 즐기실 수 있습니다.</span></li>
   </ul>
-</section>
-
-<section>
-  <div class="eyebrow">Getting here</div>
-  <h2>찾아오는 길</h2>
-  <p class="lead">한남동 FEZH 건물 지하 1층(B1F)에 있습니다. 계단으로 내려가는 입구가 아니라서 처음 오시면 헷갈리기 쉽습니다.</p>
-  <div class="route">
-    <div><div class="k">STEP 1</div><div class="v">도로에서 건물 왼쪽 통로로 들어옵니다.</div></div>
-    <div><div class="k">STEP 2</div><div class="v">통로로 들어서면 바로 오른쪽이 블루캣입니다.</div></div>
-    <div><div class="k">TIP</div><div class="v">광장 계단 아래는 다른 매장입니다. 내려가지 마세요.</div></div>
-  </div>
 </section>
 
 <div class="contact" id="contact">
