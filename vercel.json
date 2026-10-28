@@ -1,5 +1,10 @@
 {
   "rewrites": [
+    {
+      "source": "/",
+      "has": [{ "type": "host", "value": "bluecat-yearend.vercel.app" }],
+      "destination": "/dinner.html"
+    },
     { "source": "/dinner", "destination": "/dinner.html" },
     { "source": "/d", "destination": "/dinner.html" }
   ]
