@@ -1,0 +1,11 @@
+{
+  "name": "bluecat-automation",
+  "private": true,
+  "type": "module",
+  "engines": { "node": ">=20" },
+  "scripts": {
+    "test": "node --test",
+    "insights": "node ads-insights.js",
+    "publish:ig": "node ig-publish.js"
+  }
+}
