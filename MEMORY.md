@@ -30,3 +30,17 @@
 2. (완료) PRD v0.1 작성 `docs/intranet/04-prd-v0.1.md`. `[영상 보강]` 표시 부분은 자막 확보 후 채운다. 시트를 1차 저장소로 가정.
 3. (답변 완료) 범위 전부 / 승인 대표이사 / 예산 상한 없음 → PRD에 반영.
 4. Meta 토큰 발급 후 automation 실제 호출 검증.
+
+## 2026-10-29 2차 세션 기록 (같은 브랜치)
+
+### 진행
+- "영상 다시 읽어 봐" 요청으로 CVmbidt-3ro 자막 재시도. curl·WebFetch 모두 네트워크 정책 차단(youtube.com, youtu.be, maily.so, eopla.net). PlayMCP는 이 세션에 `UsStockInfo-get_nasdaq_fear_greed` 1개만 노출됨.
+- 사용자가 커넥터 설정에서 PlayMCP `YouTube Data 분석: get_transcripts` 허용 상태를 스크린샷으로 확인해 줌. 그러나 세션 도구 목록은 시작 시 고정이라 이 세션에서는 못 씀.
+- 자식 세션(create_session)으로 우회 시도 → 자동 모드 분류기가 거부.
+- 검색으로 확인한 사실 3건을 01 리포트 2절에 추가 (ERP 이름 '윤비서', 직원 5명, 뉴스레터 회차 URL).
+
+### 다음 작업 (우선순위)
+1. **새 세션 시작 → "메모리 읽어" → 즉시 ToolSearch "+PlayMCP transcripts"로 get_transcripts 도구 노출 확인.** 보이면 CVmbidt-3ro 자막 수집 → `docs/intranet/transcript-CVmbidt-3ro.md`에 원문 저장 → 01 리포트 3절 7개 항목 채우기(타임스탬프 출처) → PRD 04의 `[영상 보강]` 5곳 반영.
+2. 도구가 또 안 보이면: 사용자에게 Network access Allowed domains에 `eopla.net`(최소) 또는 `www.youtube.com` 추가를 요청하거나, 자막을 채팅에 붙여넣어 달라고 한다.
+3. PRD `[사용자 확인 필요]` 2곳(역할별 담당, 절대 일정)은 영상과 무관하므로 먼저 질문해 채운다.
+4. Meta 토큰 발급 후 automation 실제 호출 검증.

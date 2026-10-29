@@ -20,6 +20,9 @@
 | 현재 사업 | 윤자동: 업무 자동화 교육 + 에이전시. 기업 시스템 50곳 이상 구축 표방 | 윤자동 공식 사이트 (검색 결과) |
 | 기술 스택 | Python, Excel VBA, Make, Cursor AI, n8n, Airtable | 윤자동 공식 사이트 (검색 결과) |
 | 팟캐스트 | HOW I AI는 AI로 일하는 실무자 인터뷰 팟캐스트. 영어권 동명 팟캐스트(Claire Vo)와 별개 | Apple 팟캐스트, howiai.tv (검색 결과) |
+| ERP 이름 | 윤 대표가 만든 사내 ERP의 이름은 '윤비서'. 한 소개글은 "데이터 적재를 가장 잘 실천한 사례"로 평가 (개인 의견) | 검색 결과 스니펫 (2026-10-29 2차 검색) |
+| 회사 규모 | 본인 소개글: 직원 5명의 자동화 교육·에이전시. 상담원 시절 2천 명 업무 자동화로 연 10억 이상 절감 주장 (자가 보고, 미검증) | 윤자동 스레드 자기소개 https://www.threads.com/@yun_ja_dong/post/DPvlxUAjH0Y/ |
+| 뉴스레터 회차 | 이 회차 글 제목 "고졸 CS 직원이 토스 PO 입사, 월 3000을 버는 창업가가 되기까지". maily.so와 eopla.net에 같은 글 | https://maily.so/josh/posts/xyowmpn1z28 , https://eopla.net/magazines/31651 |
 
 "비용 0원"은 영상 제목·설명의 홍보성 문구다. 실제 조건(구독료, 인건비, 유지보수)은 본문 확인 전까지 믿지 않는다.
 
@@ -43,7 +46,10 @@
 
 ## 5. 자막 확보 방법 (사용자 작업)
 
+2026-10-29 2차 시도 결과: curl, WebFetch 모두 youtube.com, youtu.be, maily.so, eopla.net, certi.kdb.infomaster.co.kr 에서 호스트 해석 실패(네트워크 정책). PlayMCP는 이 세션에 미국 주식 도구 1개만 노출됐다. 커넥터 설정에서 get_transcripts가 허용으로 바뀐 것은 확인했으나, 세션의 도구 목록은 시작 시점에 고정되어 반영되지 않았다. 자식 세션 생성은 권한 분류기가 거부했다.
+
 아래 중 하나면 된다.
-- 세션 환경 설정 → Network access에서 `www.youtube.com`, `maily.so`, `www.yunjadong.com`을 Allowed domains에 추가한다.
+- **새 세션을 시작**하고 "메모리 읽어" 후 PlayMCP `YouTubeData-get_transcripts`를 쓴다. 세션 시작 직후 ToolSearch "+PlayMCP transcripts"로 도구가 보이는지 먼저 확인한다.
+- 세션 환경 설정 → Network access에서 `www.youtube.com`, `maily.so`, `eopla.net`을 Allowed domains에 추가한다 (eopla.net 하나만 허용해도 뉴스레터 본문은 읽을 수 있다).
 - 또는 유튜브 "스크립트 표시"에서 자막을 복사해 채팅에 붙여넣는다.
 - 또는 HOW I AI 뉴스레터(maily.so/josh)에 이 회차 글이 있으면 본문을 붙여넣는다.
