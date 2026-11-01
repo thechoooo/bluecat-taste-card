@@ -2,7 +2,7 @@
   "redirects": [
     {
       "source": "/:path(dinner|d|dinner\\.html)",
-      "has": [{ "type": "host", "value": "bluecat-taste-card\\.vercel\\.app" }],
+      "has": [{ "type": "host", "value": "bluecat-taste-card-two\\.vercel\\.app" }],
       "destination": "https://bluecat-yearend.vercel.app/",
       "permanent": false
     }
