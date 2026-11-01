@@ -1,19 +1,16 @@
 {
-  "redirects": [
+  "routes": [
     {
-      "source": "/:path(dinner|d|dinner\\.html)",
-      "has": [{ "type": "host", "value": "bluecat-taste-card-two\\.vercel\\.app" }],
-      "destination": "https://bluecat-yearend.vercel.app/",
-      "permanent": false
-    }
-  ],
-  "rewrites": [
-    {
-      "source": "/",
-      "has": [{ "type": "host", "value": "bluecat-yearend\\.vercel\\.app" }],
-      "destination": "/dinner.html"
+      "src": "^/(dinner|d|dinner\\.html)$",
+      "has": [{ "type": "host", "value": "bluecat-taste-card-two.vercel.app" }],
+      "status": 307,
+      "headers": { "Location": "https://bluecat-yearend.vercel.app/" }
     },
-    { "source": "/dinner", "destination": "/dinner.html" },
-    { "source": "/d", "destination": "/dinner.html" }
+    {
+      "src": "^/$",
+      "has": [{ "type": "host", "value": "bluecat-yearend.vercel.app" }],
+      "dest": "/dinner.html"
+    },
+    { "src": "^/(dinner|d)$", "dest": "/dinner.html" }
   ]
 }
